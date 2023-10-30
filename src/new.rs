@@ -1,11 +1,11 @@
 use std::{fs, fs::File};
 use std::io;
-use std::io::prelude::*;
+use std::io::{prelude::*, Write};
 use std::process::Command;
 use colored::*;
 use crate::config::*;
 
-const ARTICLE_TEMPLATE: &str = include_str!("article.tex");
+const ARTICLE_TEMPLATE: &str = include_str!("../res/article.tex");
 
 pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
     // Always create a new directory.
@@ -47,7 +47,7 @@ pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
     /* Write the template as bytes to the tex dir, depending on doctype. */
     match config.get_doctype() {
         DocumentType::Article => {
-            let template = File::create(project_name.clone() + "/tex" + &project_name + ".tex").expect("Location must be writable.");
+            let mut template = File::create(project_name.clone() + "/tex" + &project_name + ".tex").expect("Location must be writable.");
             template.write_all(ARTICLE_TEMPLATE.as_bytes()).expect("File must be writable.");
         },
         _ => unimplemented!() // TODO: Implement cases for Book & Letter.
@@ -63,8 +63,9 @@ pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
 fn initialize_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
     let project_directory = config.get_name();
 
-    let mut git_init = Command::new("git").args(&["init"]).current_dir(project_directory);
-    let output = git_init.output().expect("Git failed to initialize.");
+    let mut git_init = Command::new("git");
+    let mut git_init_output = git_init.args(&["init"]).current_dir(project_directory.clone());
+    let output = git_init_output.output().expect("Git failed to initialize.");
 
     if output.status.success() {
         println!("Git repository initialized successfully in {}.", project_directory.blue());
@@ -78,8 +79,9 @@ fn initialize_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
 fn add_to_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
     let project_directory = config.get_name();
 
-    let mut git_add = Command::new("git").args(&["add", "."]).current_dir(project_directory);
-    let output = git_add.output().expect("Git failed to add files.");
+    let mut git_add = Command::new("git");
+    let mut git_add_output = git_add.args(&["add", "."]).current_dir(project_directory.clone());
+    let output = git_add_output.output().expect("Git failed to add files.");
 
     if output.status.success() {
         println!("Git repository populated successfully in {}.", project_directory.blue());

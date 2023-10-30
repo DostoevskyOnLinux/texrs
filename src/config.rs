@@ -24,11 +24,11 @@ pub struct ProjectConfig {
 
 impl ProjectConfig {
     pub fn get_name(&self) -> String {
-        self.name
+        self.name.clone()
     }
 
     pub fn get_driver(&self) -> String {
-        self.driver
+        self.driver.clone()
     }
 
     pub fn get_citations(&self) -> bool {
@@ -40,26 +40,26 @@ impl ProjectConfig {
     }
 
     pub fn get_doctype(&self) -> DocumentType {
-        self.doctype
+        self.doctype.clone()
     }
 
-    pub fn set_name(&self, name: &str) {
+    pub fn set_name(&mut self, name: &str) {
         self.name = name.to_owned();
     }
 
-    pub fn set_driver(&self, driver: &str) {
+    pub fn set_driver(&mut self, driver: &str) {
         self.driver = driver.to_owned();
     }
 
-    pub fn set_citations(&self, citations: bool) {
+    pub fn set_citations(&mut self, citations: bool) {
         self.citations = citations;
     }
 
-    pub fn set_graphics(&self, graphics: bool) {
+    pub fn set_graphics(&mut self, graphics: bool) {
         self.graphics = graphics;
     }
 
-    pub fn set_doctype(&self, doctype: DocumentType) {
+    pub fn set_doctype(&mut self, doctype: DocumentType) {
         self.doctype = doctype;
     }
 

@@ -1,0 +1,156 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% This template was drafted by Ethan Barry, but
+%%% has been created with tidbits from many diff-
+%%% erent sources. You may have it under the terms
+%%% of the BSD 2-clause license. Go wild.
+%%% -----
+%%% It is also part of the program called
+%%% 'latex-rust'. The source code of the program
+%%% excepting this file is licensed under the
+%%% terms of the GPLv3.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% PRELUDE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----% FORMATTING %-----------------------------%
+ \documentclass[letterpaper,titlepage,12pt]{article} % USA's usage.
+%\documentclass[a4paper,10pt]{article} % European usage.
+\usepackage[letterpaper,
+            left=1in,
+            right=1in,
+            top=1in,
+            bottom=1in,
+            footskip=.25in]{geometry}
+
+%-----% USEFUL TOOLS %---------------------------%
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tabularx}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{parskip}
+\usepackage{fontspec}
+\usepackage{setspace}
+\usepackage{multicol}
+\usepackage{caption}
+
+%-----% RESOURCES & BIBLIOGRAPHY %---------------%
+\usepackage[noibid, backend=biber, isbn=false, doi=false]{biblatex-chicago}
+\usepackage{url}
+\addbibresource{refs.bib}
+
+%-----% IMAGES & GRAPHICS %----------------------%
+\usepackage{graphicx}
+\usepackage{tikz}
+\graphicspath{{graphics/}}
+
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  tableposition=top
+}
+
+%-----% SET SPACING OPTIONS %--------------------%
+\addtolength{\topmargin}{-5pt}
+\setlength{\parindent}{25pt}
+\renewcommand{\baselinestretch}{1.5}
+\frenchspacing
+
+%-----% HEADER & FOOTER %------------------------%
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[R]{<YOURNAME> \thepage}
+
+%-----% FONT OPTIONS %---------------------------%
+% |     Here you can select from a number of fonts
+% | that most computers and LaTeX distributions
+% | should provide. While I prefer EBGaramond &
+% | Palatino, there are many others available in a
+% | standard TeX distribution. See:
+% | https://tug.org/FontCatalogue/ for many more
+% | choices.
+%-----% ----- %----------------------------------%
+\defaultfontfeatures{Contextuals=Alternate}
+%-----% SERIF %---------%
+  \usepackage{palatino}
+% \usepackage{ebgaramond}
+% \usepackage{times}
+% \usepackage{charter}
+
+%-----% SANS-SERIF %----%
+% \usepackage{helvet}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% \setromanfont[Mapping=tex-text]{Linux Libertine O}
+% \setsansfont[Mapping=tex-text]{DejaVu Sans}
+% \setmonofont[Mapping=tex-text]{DejaVu Sans Mono}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----% THE DOCUMENT %---------------------------%
+\begin{document}
+
+%-----% TITLEPAGE %------------------------------%
+% | https://en.wikibooks.org/wiki/LaTeX/Title_Creation
+% | This titlepage allows for good manual control
+% | over how it looks. Recompile it, add or sub-
+% | tract spacing, and see how it looks.
+%-----% ----- %----------------------------------%
+\begin{titlepage}
+	\centering
+%	\includegraphics[width=0.15\textwidth]{example-image-1x1}\par\vspace{1cm}
+	{\scshape\Large University of Foo \\ at Bar\par}
+%	\vspace{1cm}
+%	{\scshape\Large Final year project\par}
+	\vspace{5cm}
+	{\scshape\LARGE The Big Long Title,\\ \& Many More Important\\ Words\par}
+	\vfill
+	{\Large\itshape Fizz F. Fuzz\\}
+%	\vspace{2mm}
+	{\Large\scshape Art 9000: Advanced \LaTeX Typesetting\\}
+%	\vspace{2mm}
+	{\Large\scshape 25 Octember 2000\\}
+
+\vspace{5cm}
+\end{titlepage}
+
+%-----% TABLE OF CONTENTS %----------------------%
+\tableofcontents
+\listoffigures
+%-----% ----- %----------------------------------%
+
+%-----% THE ACTUAL DOCUMENT %--------------------%
+% |     Aaand here's where you write your text.
+% | Good luck!
+%-----% ----- %----------------------------------%
+
+
+
+%-----% FIGURE PAGES %---------------------------%
+% | If you need a separate figures page, then un-
+% | comment the following code.
+%-----% ----- %----------------------------------%
+% \newpage
+% \center{\scshape Figures}
+% \begin{figure}[h!]
+%  \centering
+%  \includegraphics[width=0.7\textwidth]{example.jpg}
+%  \caption{Leonardo Da Example. {\it Coolest Painting Ever}. Oil on canvas. Callerie degli Uffizi}
+%  \label{fig:cool_leonardo}
+% \end{figure}
+
+%-----% BIBLIOGRAPHY %---------------------------%
+% |     Prints on a new page in keeping with the
+% | Chicago Manual of Style's guidelines. You can
+% | change this, too.
+%-----% ----- %----------------------------------%
+\newpage
+\center{\scshape Bibliography}
+\printbibliography[heading=none]
+%-----% END OF THE DOCUMENT %--------------------%
+% |     Well, that wasn't so bad! Congrats!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
