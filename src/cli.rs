@@ -1,5 +1,5 @@
 use crate::{config::*, new};
-use clap::{arg, ArgMatches, Command, Parser};
+use clap::{ArgMatches};
 use colored::*;
 use std::{io, io::Write};
 

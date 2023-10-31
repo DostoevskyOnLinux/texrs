@@ -1,7 +1,7 @@
 use crate::config::*;
 use colored::*;
 use std::io;
-use std::io::{prelude::*, Write};
+use std::io::{Write};
 use std::process::Command;
 use std::{fs, fs::File};
 
@@ -75,7 +75,7 @@ fn initialize_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
     let project_directory = config.get_name();
 
     let mut git_init = Command::new("git");
-    let mut git_init_output = git_init
+    let git_init_output = git_init
         .args(&["init"])
         .current_dir(project_directory.clone());
     let output = git_init_output.output().expect("Git failed to initialize.");
@@ -99,7 +99,7 @@ fn add_to_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
     let project_directory = config.get_name();
 
     let mut git_add = Command::new("git");
-    let mut git_add_output = git_add
+    let git_add_output = git_add
         .args(&["add", "."])
         .current_dir(project_directory.clone());
     let output = git_add_output.output().expect("Git failed to add files.");

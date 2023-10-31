@@ -1,5 +1,5 @@
-use clap::{arg, Command, Parser};
-use colored::*;
+use clap::{arg, Command};
+
 
 fn cli() -> Command {
     Command::new("texrs")
