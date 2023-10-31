@@ -1,17 +1,17 @@
-use clap::{arg, Command, Parser, ArgMatches};
-use std::{io, io::Write};
-use colored::*;
 use crate::{config::*, new};
+use clap::{arg, ArgMatches, Command, Parser};
+use colored::*;
+use std::{io, io::Write};
 
 pub fn match_command(matches: ArgMatches) {
     match matches.subcommand() {
         Some(("new", sub_m)) => {
             let config = generate_config(sub_m);
-            new::create_dir_structure(config);
-        },
+            new::create_dir_structure(config).expect("Location must be writable.");
+        }
         Some(("build", _sub_matches)) => {
             unimplemented!(); // TODO: Make build work!
-        },
+        }
         _ => unreachable!(),
     }
 }
@@ -28,15 +28,26 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
     print!("{} ", ">".to_string().bold().green());
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
-        Ok(_) => {},
-        Err(_) => { eprintln!("Invalid input; continuing!"); },
+        Ok(_) => {}
+        Err(_) => {
+            eprintln!("Invalid input; continuing!");
+        }
     }
     input = input.trim().to_string();
     match &input as &str {
-        "0" => config.set_doctype(DocumentType::Article),
-        "1" => config.set_doctype(DocumentType::Book),
-        "2" => config.set_doctype(DocumentType::Letter),
-            _ => {
+        "0" => {
+            config.set_doctype(DocumentType::Article);
+            println!("Selecting {}.", "article".blue());
+        }
+        "1" => {
+            config.set_doctype(DocumentType::Book);
+            println!("Selecting {}", "book".blue());
+        }
+        "2" => {
+            config.set_doctype(DocumentType::Letter);
+            println!("Selecting {}", "letter".blue());
+        }
+        _ => {
             println!("Selecting letter."); // Is the default.
         }
     }
@@ -46,15 +57,17 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
     print!("{}", ">".to_string().bold().green());
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
-        Ok(_) => {},
-        Err(_) => { eprintln!("Invalid input; continuing!"); },
+        Ok(_) => {}
+        Err(_) => {
+            eprintln!("Invalid input; continuing!");
+        }
     }
     input = input.trim().to_string();
     match &input as &str {
         "0" => config.set_driver("pdflatex"),
         "1" => config.set_driver("xelatex"),
         "2" => config.set_driver("lualatex"),
-            _ => {
+        _ => {
             println!("Selecting pdflatex."); // Is the default.
         }
     }
@@ -63,14 +76,16 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
     print!("Will this document include citations? (Y/n) ");
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
-        Ok(_) => {},
-        Err(_) => { eprintln!("Invalid input; continuing!"); },
+        Ok(_) => {}
+        Err(_) => {
+            eprintln!("Invalid input; continuing!");
+        }
     }
     input = input.trim().to_string();
     match &input as &str {
         "Y" | "y" => config.set_citations(true),
         "N" | "n" => config.set_citations(false),
-         _ => {
+        _ => {
             println!("Excluding citations."); // Is the default.
         }
     }
@@ -79,14 +94,16 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
     print!("Will this document include graphics? (Y/n) ");
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
-        Ok(_) => {},
-        Err(_) => { eprintln!("Invalid input; continuing!"); },
+        Ok(_) => {}
+        Err(_) => {
+            eprintln!("Invalid input; continuing!");
+        }
     }
     input = input.trim().to_string();
     match &input as &str {
         "Y" | "y" => config.set_graphics(true),
         "N" | "n" => config.set_graphics(false),
-         _ => {
+        _ => {
             println!("Excluding graphics."); // Is the default.
         }
     }
