@@ -1,5 +1,3 @@
-
-
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use std::fs::File;
@@ -82,7 +80,7 @@ impl ProjectConfig {
     }
 }
 
-fn write_project_config(config: &ProjectConfig) -> Result<(), toml::ser::Error> {
+pub fn write_project_config(config: &ProjectConfig) -> Result<(), toml::ser::Error> {
     let root_dir = config.get_name() + "/";
     let toml_str = toml::to_string(&config)?;
     let mut file = File::create(root_dir + "config.toml").expect("Location must be writable.");

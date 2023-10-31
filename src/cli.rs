@@ -1,4 +1,4 @@
-use crate::{config::*, new};
+use crate::{build::*, config::*, new};
 use clap::ArgMatches;
 use colored::*;
 use std::{io, io::Write};
@@ -9,8 +9,11 @@ pub fn match_command(matches: ArgMatches) {
             let config = generate_config(sub_m);
             new::create_dir_structure(config).expect("Location must be writable.");
         }
-        Some(("build", _sub_matches)) => {
-            unimplemented!(); // TODO: Make build work!
+        Some(("build", sub_m)) => {
+            let config = read_config(sub_m.clone())
+                .expect("Config file must be present in the directory given.");
+            build_from_config(config).expect("Location must be writable.");
+            //unimplemented!(); // TODO: Make build work!
         }
         _ => unreachable!(),
     }

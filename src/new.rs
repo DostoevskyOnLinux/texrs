@@ -1,4 +1,4 @@
-use crate::config::*;
+use crate::config::{self, *};
 use colored::*;
 use std::io;
 use std::io::Write;
@@ -61,8 +61,10 @@ pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
                 .write_all(LETTER_TEMPLATE.as_bytes())
                 .expect("File must be writable.");
         }
-        _ => unimplemented!(), // TODO: Implement cases for Book.
+        _ => unimplemented!(), // TODO: Implement cases for Book. We need a good book template...
     }
+
+    config::write_project_config(&config).expect("Location must be writable.");
 
     /* These should be about the last things to run. Also write the .gitignore file before this. */
     initialize_git_repository(config.clone()).expect("Git must be installed.");
