@@ -67,9 +67,9 @@ impl ProjectConfig {
         ProjectConfig {
             name: "document1".to_owned(),
             driver: "pdflatex".to_owned(),
-            citations: false,
-            graphics: false,
-            doctype: DocumentType::Letter
+            citations: true,
+            graphics: true,
+            doctype: DocumentType::Letter,
         }
     }
 }

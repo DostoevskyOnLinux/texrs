@@ -34,6 +34,7 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
     input = input.trim().to_string();
+    //println!("INPUT WAS ---{}---", input);
     match &input as &str {
         "0" => {
             config.set_doctype(DocumentType::Article);
@@ -52,9 +53,10 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
 
+    input = String::new();
     // Select driver.
     println!("Please select your driver: [pdflatex (0), xelatex (1), or lualatex (2)]");
-    print!("{}", ">".to_string().bold().green());
+    print!("{} ", ">".to_string().bold().green());
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
         Ok(_) => {}
@@ -63,15 +65,26 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
     input = input.trim().to_string();
+    //println!("INPUT WAS ---{}---", input);
     match &input as &str {
-        "0" => config.set_driver("pdflatex"),
-        "1" => config.set_driver("xelatex"),
-        "2" => config.set_driver("lualatex"),
+        "0" => {
+            config.set_driver("pdflatex");
+            println!("Selecting {}", "pdflatex".green());
+        }
+        "1" => {
+            config.set_driver("xelatex");
+            println!("Selecting {}", "xelatex".green());
+        }
+        "2" => {
+            config.set_driver("lualatex");
+            println!("Selecting {}", "lualatex".green());
+        }
         _ => {
             println!("Selecting pdflatex."); // Is the default.
         }
     }
 
+    input = String::new();
     // Choose citations.
     print!("Will this document include citations? (Y/n) ");
     let _ = io::stdout().flush();
@@ -82,14 +95,22 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
     input = input.trim().to_string();
+    //println!("INPUT WAS ---{}---", input);
     match &input as &str {
-        "Y" | "y" => config.set_citations(true),
-        "N" | "n" => config.set_citations(false),
+        "Y" | "y" => {
+            config.set_citations(true);
+            println!("Setting citations to {}", "true".blue());
+        }
+        "N" | "n" => {
+            config.set_citations(false);
+            println!("Setting citations to {}", "false".red());
+        }
         _ => {
-            println!("Excluding citations."); // Is the default.
+            println!("Including citations."); // Is the default.
         }
     }
 
+    input = String::new();
     // Choose graphics.
     print!("Will this document include graphics? (Y/n) ");
     let _ = io::stdout().flush();
@@ -100,11 +121,12 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
     input = input.trim().to_string();
+    //println!("INPUT WAS ---{}---", input);
     match &input as &str {
         "Y" | "y" => config.set_graphics(true),
         "N" | "n" => config.set_graphics(false),
         _ => {
-            println!("Excluding graphics."); // Is the default.
+            println!("Including graphics."); // Is the default.
         }
     }
 

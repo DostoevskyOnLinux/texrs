@@ -1,0 +1,144 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% This template was drafted by Ethan Barry, but
+%%% has been created with tidbits from many diff-
+%%% erent sources. You may have it under the terms
+%%% of the BSD 2-clause license. Go wild.
+%%% -----
+%%% It is also part of the program called
+%%% 'latex-rust'. The source code of the program
+%%% excepting this file is licensed under the
+%%% terms of the GPLv3.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% PRELUDE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----% FORMATTING %-----------------------------%
+ \documentclass[letterpaper,12pt]{article}
+%\documentclass[a4paper,10pt]{article} % European usage.
+\pagestyle{empty}
+\usepackage[letterpaper,
+            left=0.8in,
+            right=0.8in,
+            top=0.7in,
+            bottom=0.7in]{geometry} % Be sure to change this in Europe.
+
+%-----% USEFUL TOOLS %---------------------------%
+\usepackage{lipsum}
+\usepackage{setspace}
+\usepackage{paracol}
+
+%-----% IMAGES & GRAPHICS %----------------------%
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[skins,breakable]{tcolorbox}
+\graphicspath{{graphics/}}
+
+%-----% COLOR DEFINITIONS %----------------------%
+\definecolor{longline}{RGB}{0,40,89}
+
+%-----% FONT OPTIONS %---------------------------%
+% |     Here you can select from a number of fonts
+% | that most computers and LaTeX distributions
+% | should provide. While I prefer EBGaramond &
+% | Palatino, there are many others available in a
+% | standard TeX distribution. See:
+% | https://tug.org/FontCatalogue/ for many more
+% | choices.
+%-----% ----- %----------------------------------%
+% \defaultfontfeatures{Contextuals=Alternate} % Enable only with XeLaTeX.
+%-----% SERIF %---------%
+% \usepackage{palatino}
+  \usepackage{ebgaramond}
+% \usepackage{times}
+% \usepackage{charter}
+
+%-----% SANS-SERIF %----%
+% \usepackage{helvet}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% \setromanfont[Mapping=tex-text]{Linux Libertine O}
+% \setsansfont[Mapping=tex-text]{DejaVu Sans}
+% \setmonofont[Mapping=tex-text]{DejaVu Sans Mono}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----% THE DOCUMENT %---------------------------%
+\begin{document}
+
+%-----% TITLEBAR %-------------------------------%
+\begin{flushleft}
+    {\Large\scshape UNIVERSITY OF FOO AT BAR }\\
+    \vspace*{0.06in}
+    {\scshape DEPARTMENT OF AWESOMENESS }
+\end{flushleft}
+
+\setlength{\columnsep}{0.5in}
+\setcolumnwidth{4.5in, 1in}
+
+%-----% THE ADDRESS COLUMN %---------------------%
+% |     This column section holds the address, &
+% | an image if you choose to include one.
+%-----% ----- %----------------------------------%
+\begin{paracol}{2}
+    \vspace*{0.05in} % Balance height ratios.
+    \onehalfspacing
+    \noindent Dr. Ludovicus Humperdink \\
+    3300 University Drive \\
+    Happytown, YZ, 01010 \\
+    Some other text here?
+    \switchcolumn
+    \vspace*{-1in}\hspace*{-0.8in}\includegraphics[width=2in]{example_logo.png}
+    % Don't forget to replace the above with your graphic.    ^^^^^^^^^^^^^^^^
+    % You can use the spacing options on the image to change its position. Use
+    % the [width=<number>in] option to change its size on the page. Alternatively
+    % comment that line out to drop the graphic.
+\end{paracol}
+%-----% A REALLY LONG LINE %---------------------%
+% | This draws a line from one border to the other.
+% | Adjust the color in the color definitions block.
+% | Adjust the thickness here; it's the number at the end.
+%-----% ----- %----------------------------------%
+\vspace*{-0.5in}
+\noindent\textcolor{longline}{\makebox[\linewidth]{\rule{\textwidth}{0.8pt}}}
+\vspace*{0.5in}
+
+\begin{paracol}{2}
+%-----% THE ACTUAL DOCUMENT %--------------------%
+% |     Aaand here's where you write your text.
+% | Remove the `\lipsum[] blocks, and replace them
+% | with your own paragraphs. They're just here so
+% | you have some sample text to work with while
+% | you adjust the image placement.
+%-----% ----- %----------------------------------%
+    \noindent\textbf{Your title here}
+    \\ \\
+    \lipsum[1]
+    \\ \\
+    \lipsum[2]
+    \\ \\
+    Regards,
+    \\ \\ \\
+    {\scshape Fuzz B. Buzz}\\
+    Position / Title
+
+%-----% IMAGES & GRAPHICS %----------------------%
+% | Here's a nice little column for your info, &c.
+%-----% ----- %----------------------------------%
+    \switchcolumn
+    {\footnotesize\vspace{0.03in}
+    \noindent 25 Octember, 2000
+    \\
+    1010 Memory Lane \\
+    Vimville, WQ, 11011
+    \\ \\
+    fuzz@fizz.com \\
+    www.foobar.com
+    \\ \\
+    }
+\end{paracol}
+%-----% END OF THE DOCUMENT %--------------------%
+% |     Well, that wasn't so bad! Good job!
+%-----% ----- %----------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
