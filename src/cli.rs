@@ -1,5 +1,5 @@
 use crate::{config::*, new};
-use clap::{ArgMatches};
+use clap::ArgMatches;
 use colored::*;
 use std::{io, io::Write};
 
@@ -16,6 +16,17 @@ pub fn match_command(matches: ArgMatches) {
     }
 }
 
+/// The following function generates a ProjectConfig
+/// struct by asking the user to select what options
+/// they need in their document. The ProjectConfig
+/// struct can then be processed to achieve the des-
+/// ired result, or written to a config.toml file
+/// with the serde and toml crates.
+/// ## Usage
+/// ```rust
+/// let config = generate_config(args);
+/// let project_name = config.get_name();
+///
 fn generate_config(args: &ArgMatches) -> ProjectConfig {
     let mut config = ProjectConfig::new();
     let mut input = String::new();

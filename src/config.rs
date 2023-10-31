@@ -1,4 +1,12 @@
-#[derive(Clone)]
+use serde::ser::Serialize;
+use serde::Deserialize;
+use serde_derive::Deserialize;
+use serde_derive::Serialize;
+use std::fs::File;
+use std::io::Write;
+use toml;
+
+#[derive(Clone, Serialize, Deserialize)]
 pub enum DocumentType {
     Article,
     Book,
@@ -13,13 +21,13 @@ pub enum DocumentType {
 ///
 ///
 ///
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct ProjectConfig {
-    name: String,
-    driver: String,
-    citations: bool,
-    graphics: bool,
-    doctype: DocumentType,
+    pub name: String,
+    pub driver: String,
+    pub citations: bool,
+    pub graphics: bool,
+    pub doctype: DocumentType,
 }
 
 impl ProjectConfig {
@@ -72,4 +80,13 @@ impl ProjectConfig {
             doctype: DocumentType::Letter,
         }
     }
+}
+
+fn write_project_config(config: &ProjectConfig) -> Result<(), toml::ser::Error> {
+    let root_dir = config.get_name() + "/";
+    let toml_str = toml::to_string(&config)?;
+    let mut file = File::create(root_dir + "config.toml").expect("Location must be writable.");
+    file.write_all(toml_str.as_bytes())
+        .expect("Location must be writable.");
+    Ok(())
 }

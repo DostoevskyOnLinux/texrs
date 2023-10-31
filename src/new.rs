@@ -1,7 +1,7 @@
 use crate::config::*;
 use colored::*;
 use std::io;
-use std::io::{Write};
+use std::io::Write;
 use std::process::Command;
 use std::{fs, fs::File};
 
