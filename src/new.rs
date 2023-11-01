@@ -7,6 +7,7 @@ use std::{fs, fs::File};
 
 const ARTICLE_TEMPLATE: &str = include_str!("../res/article.tex");
 const LETTER_TEMPLATE: &str = include_str!("../res/letter.tex");
+const BIBTEX_TEMPLATE: &str = include_str!("../res/refs.bib");
 
 pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
     // Always create a new directory.
@@ -27,12 +28,13 @@ pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
     }
 
     match config.get_citations() {
-        // If true, create bib dir.
-        // TODO: This should also write a .bib file to the new directory.
         true => {
             fs::create_dir(project_name.clone() + "/bib").expect("Location must be writable.");
-            let msg = String::from("bib");
-            println!("Created {} directory.", msg.blue().bold());
+            let mut refs = File::create(project_name.clone() + "/bib/refs.bib")
+                .expect("Location must be writable.");
+            refs.write_all(BIBTEX_TEMPLATE.as_bytes())
+                .expect("File must be writable.");
+            println!("Created {} directory.", "bib".blue().bold());
         }
         false => {
             let msg = String::from("No bibliography path needed.");

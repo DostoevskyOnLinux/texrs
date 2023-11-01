@@ -16,9 +16,12 @@ pub enum DocumentType {
 /// whether citations or graphics are used, & what
 /// type of document it is.
 ///
-///
-///
-///
+/// ## Structure
+/// pub name: String,
+/// pub driver: String,
+/// pub citations: bool,
+/// pub graphics: bool,
+/// pub doctype: DocumentType
 #[derive(Clone, Serialize, Deserialize)]
 pub struct ProjectConfig {
     pub name: String,
@@ -26,7 +29,7 @@ pub struct ProjectConfig {
     pub citations: bool,
     pub graphics: bool,
     pub doctype: DocumentType,
-}
+} // TODO: I don't think these need to be `pub` now...
 
 impl ProjectConfig {
     pub fn get_name(&self) -> String {

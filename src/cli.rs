@@ -13,7 +13,6 @@ pub fn match_command(matches: ArgMatches) {
             let config = read_config(sub_m.clone())
                 .expect("Config file must be present in the directory given.");
             build_from_config(config).expect("Location must be writable.");
-            //unimplemented!(); // TODO: Make build work!
         }
         _ => unreachable!(),
     }
@@ -30,6 +29,9 @@ pub fn match_command(matches: ArgMatches) {
 /// let config = generate_config(args);
 /// let project_name = config.get_name();
 ///
+
+/* TODO: Revamp this CLI and add some conditions to make defaults better.
+I should be able to select my doctype and have everything else be OK. */
 fn generate_config(args: &ArgMatches) -> ProjectConfig {
     let mut config = ProjectConfig::new();
     let mut input = String::new();
@@ -48,7 +50,7 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
     input = input.trim().to_string();
-    //println!("INPUT WAS ---{}---", input);
+
     match &input as &str {
         "0" => {
             config.set_doctype(DocumentType::Article);
@@ -79,7 +81,7 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
     input = input.trim().to_string();
-    //println!("INPUT WAS ---{}---", input);
+
     match &input as &str {
         "0" => {
             config.set_driver("pdflatex");
@@ -109,7 +111,7 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
     input = input.trim().to_string();
-    //println!("INPUT WAS ---{}---", input);
+
     match &input as &str {
         "Y" | "y" => {
             config.set_citations(true);
@@ -135,7 +137,7 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
         }
     }
     input = input.trim().to_string();
-    //println!("INPUT WAS ---{}---", input);
+
     match &input as &str {
         "Y" | "y" => config.set_graphics(true),
         "N" | "n" => config.set_graphics(false),
