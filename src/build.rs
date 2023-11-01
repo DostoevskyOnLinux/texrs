@@ -34,10 +34,11 @@ pub fn build_from_config(config: ProjectConfig) -> Result<(), io::Error> {
         .current_dir(project_name.clone() + "/target");
     let project_file_name = "../tex/".to_owned() + project_name + ".tex";
     println!(
-        "Running {} to compile {} in {}/target...",
+        "Running {} to compile {} in {}{}...",
         config.get_driver().blue(),
         project_file_name.blue(),
-        project_name.to_owned()
+        project_name.to_owned().blue(),
+        "/target".blue()
     );
 
     let output = tex_builder.output().expect("Driver failed to build.");
@@ -48,6 +49,50 @@ pub fn build_from_config(config: ProjectConfig) -> Result<(), io::Error> {
             "Failed to compile LaTeX:\n{}",
             String::from_utf8_lossy(&output.stderr)
         );
+    }
+
+    if config.get_citations() {
+        let mut biber = Command::new("biber");
+        biber
+            .args(&[project_name])
+            .current_dir(project_name.to_owned() + "/tex");
+        println!("Running {} to compile citations...", "biber".blue());
+
+        let biber_output = biber.output().expect("Biber failed to initialize.");
+        if biber_output.status.success() {
+            println!("Citations generated for {}...", project_name.green());
+        } else {
+            eprintln!(
+                "Failed to generate citations for {}:\n{}",
+                project_name.red(),
+                String::from_utf8_lossy(&biber_output.stderr)
+            );
+        }
+    }
+
+    if config.get_citations() || config.get_graphics() {
+        let mut final_output = Command::new(config.get_driver());
+        final_output
+            .args(&["../tex/".to_owned() + project_name + ".tex"])
+            .current_dir(project_name.clone() + "/target");
+        let project_file_name = "../tex/".to_owned() + project_name + ".tex";
+        println!(
+            "Running {} to compile {} in {}{}...",
+            config.get_driver().blue(),
+            project_file_name.blue(),
+            project_name.to_owned().blue(),
+            "/target".blue()
+        );
+
+        let output = tex_builder.output().expect("Driver failed to build.");
+        if output.status.success() {
+            println!("LaTeX compiled successfully in {}.", target_name.blue());
+        } else {
+            eprintln!(
+                "Failed to compile LaTeX:\n{}",
+                String::from_utf8_lossy(&output.stderr)
+            );
+        }
     }
     Ok(())
 }
