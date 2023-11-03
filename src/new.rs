@@ -63,6 +63,9 @@ pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
                 .write_all(LETTER_TEMPLATE.as_bytes())
                 .expect("File must be writable.");
         }
+        DocumentType::Book => {
+            todo!();
+        }
         _ => unimplemented!(), // TODO: Implement cases for Book. We need a good book template...
     }
 

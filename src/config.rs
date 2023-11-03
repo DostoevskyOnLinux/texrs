@@ -17,18 +17,18 @@ pub enum DocumentType {
 /// type of document it is.
 ///
 /// ## Structure
-/// pub name: String,
-/// pub driver: String,
-/// pub citations: bool,
-/// pub graphics: bool,
-/// pub doctype: DocumentType
+/// name: String,
+/// driver: String,
+/// citations: bool,
+/// graphics: bool,
+/// doctype: DocumentType
 #[derive(Clone, Serialize, Deserialize)]
 pub struct ProjectConfig {
-    pub name: String,
-    pub driver: String,
-    pub citations: bool,
-    pub graphics: bool,
-    pub doctype: DocumentType,
+    name: String,
+    driver: String,
+    citations: bool,
+    graphics: bool,
+    doctype: DocumentType,
 } // TODO: I don't think these need to be `pub` now...
 
 impl ProjectConfig {
