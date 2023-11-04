@@ -1,3 +1,22 @@
+// + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+// | This file is part of texrs.                                                                                                       |
+// |                                                                                                                                   |
+// | texrs is free software: you can redistribute it and/or modify it under the terms                                                  |
+// | of the GNU General Public License as published by the Free Software Foundation,                                                   |
+// | either version 3 of the License, or (at your option) any later version.                                                           |
+// |                                                                                                                                   |
+// | texrs is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;                                                |
+// | without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                                         |
+// | See the GNU General Public License for more details.                                                                              |
+// |                                                                                                                                   |
+// | You should have received a copy of the GNU General Public License along with texrs. If not, see <https://www.gnu.org/licenses/>.  |
+// + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+// | Copyright (c) 2023 Ethan Barry <ethanbarry@howdytx.net>                                                                           |
+// | Feel free to contact the author if you do come across this source code for some reason...                                         |
+// | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
+// + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+
+
 use clap::{arg, Command};
 
 fn cli() -> Command {
