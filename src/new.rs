@@ -84,7 +84,6 @@ pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
         DocumentType::Book => {
             todo!();
         }
-        _ => unimplemented!(), // TODO: Implement cases for Book. We need a good book template...
     }
 
     config::write_project_config(&config).expect("Location must be writable.");
@@ -137,6 +136,26 @@ fn add_to_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
     } else {
         eprintln!(
             "Failed to populate Git repository:\n{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+
+    let mut git_commit = Command::new("git");
+    let git_commit_output = git_commit
+        .args(&["commit", "-m", "\"Initialize repository.\""])
+        .current_dir(project_directory.clone());
+    let output = git_commit_output
+        .output()
+        .expect("Git failed to commit files.");
+
+    if output.status.success() {
+        println!(
+            "Git repository committed successfully in {}.",
+            project_directory.blue()
+        );
+    } else {
+        eprintln!(
+            "Failed to commit Git repository:\n{}",
             String::from_utf8_lossy(&output.stderr)
         );
     }
