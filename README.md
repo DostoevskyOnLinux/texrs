@@ -1,5 +1,5 @@
 # texrs
-
+```
       ___           ___           ___           ___           ___
      /\  \         /\  \         |\__\         /\  \         /\  \
      \:\  \       /::\  \        |:|  |       /::\  \       /::\  \
@@ -11,7 +11,7 @@
    \/__/         \:\ \/__/      |:|  |        |:|\/__/     \:\/:/  /
                   \:\__\        |:|  |        |:|  |        \::/  /
                    \/__/         \|__|         \|__|         \/__/
-
+```
 The easy way to generate LaTeX projects, and including great templates for projects in LaTeX. Also provides a naive build system implementation, with syntax inspired by
 Cargo.
 
