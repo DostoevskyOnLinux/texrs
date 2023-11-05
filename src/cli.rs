@@ -58,8 +58,10 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
     config.set_name(&name);
 
     // Select doctype.
-    println!("Please select your document type: [article (0), book (1), or letter (2)]");
-    print!("{} ", ">".to_string().bold().green());
+    print!(
+        "{} [(a)rticle, (b)ook, or (L)etter]: ",
+        "Select template.".blue()
+    );
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
         Ok(_) => {}
@@ -70,15 +72,15 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
     input = input.trim().to_string();
 
     match &input as &str {
-        "0" => {
+        "A" | "a" => {
             config.set_doctype(DocumentType::Article);
             println!("Selecting {}.", "article".blue());
         }
-        "1" => {
+        "B" | "b" => {
             config.set_doctype(DocumentType::Book);
             println!("Selecting {}", "book".blue());
         }
-        "2" => {
+        "L" | "l" => {
             config.set_doctype(DocumentType::Letter);
             println!("Selecting {}", "letter".blue());
         }
@@ -89,8 +91,10 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
 
     input = String::new();
     // Select driver.
-    println!("Please select your driver: [pdflatex (0), xelatex (1), or lualatex (2)]");
-    print!("{} ", ">".to_string().bold().green());
+    print!(
+        "{} [(P)dflatex, (x)elatex, or (l)ualatex]",
+        "Select driver.".blue()
+    );
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
         Ok(_) => {}
@@ -101,15 +105,15 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
     input = input.trim().to_string();
 
     match &input as &str {
-        "0" => {
+        "P" | "p" => {
             config.set_driver("pdflatex");
             println!("Selecting {}", "pdflatex".green());
         }
-        "1" => {
+        "X" | "x" => {
             config.set_driver("xelatex");
             println!("Selecting {}", "xelatex".green());
         }
-        "2" => {
+        "L" | "l" => {
             config.set_driver("lualatex");
             println!("Selecting {}", "lualatex".green());
         }
@@ -120,7 +124,7 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
 
     input = String::new();
     // Choose citations.
-    print!("Will this document include citations? (Y/n) ");
+    print!("{} (Y/n) ", "Include citations?".blue());
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
         Ok(_) => {}
@@ -146,7 +150,7 @@ fn generate_config(args: &ArgMatches) -> ProjectConfig {
 
     input = String::new();
     // Choose graphics.
-    print!("Will this document include graphics? (Y/n) ");
+    print!("{} (Y/n) ", "Include graphics?".blue());
     let _ = io::stdout().flush();
     match io::stdin().read_line(&mut input) {
         Ok(_) => {}
