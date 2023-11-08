@@ -30,75 +30,6 @@ const ARTICLE_TEMPLATE: &str = include_str!("../res/article.tex");
 const LETTER_TEMPLATE: &str = include_str!("../res/letter.tex");
 const BIBTEX_TEMPLATE: &str = include_str!("../res/refs.bib");
 
-pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
-    // Always create a new directory.
-    let project_name = &config.get_name().to_owned();
-    fs::create_dir(project_name.clone()).expect("Location must be writable.");
-
-    match config.get_graphics() {
-        // If true, create graphics dir.
-        true => {
-            fs::create_dir(project_name.clone() + "/graphics").expect("Location must be writable.");
-            let msg = String::from("graphics");
-            println!("Created {} directory.", msg.blue().bold());
-        }
-        false => {
-            let msg = String::from("No graphics path needed.");
-            println!("{}", msg);
-        }
-    }
-
-    match config.get_citations() {
-        true => {
-            fs::create_dir(project_name.clone() + "/bib").expect("Location must be writable.");
-            let mut refs = File::create(project_name.clone() + "/bib/refs.bib")
-                .expect("Location must be writable.");
-            refs.write_all(BIBTEX_TEMPLATE.as_bytes())
-                .expect("File must be writable.");
-            println!("Created {} directory.", "bib".blue().bold());
-        }
-        false => {
-            let msg = String::from("No bibliography path needed.");
-            println!("{}", msg);
-        }
-    }
-
-    /* Next create the tex directory regardless, then call `git init` and `git add .` */
-    fs::create_dir(project_name.clone() + "/tex").expect("Location must be writable.");
-
-    /* Write the template as bytes to the tex dir, depending on doctype. */
-    match config.get_doctype() {
-        DocumentType::Article => {
-            let mut template =
-                File::create(project_name.clone() + "/tex/" + &project_name + ".tex")
-                    .expect("Location must be writable.");
-            template
-                .write_all(ARTICLE_TEMPLATE.as_bytes())
-                .expect("File must be writable.");
-        }
-        DocumentType::Letter => {
-            let mut template =
-                File::create(project_name.clone() + "/tex/" + &project_name + ".tex")
-                    .expect("Location must be writable.");
-            template
-                .write_all(LETTER_TEMPLATE.as_bytes())
-                .expect("File must be writable.");
-        }
-        DocumentType::Book => {
-            todo!();
-        }
-        _ => {}
-    }
-
-    config::write_project_config(&config).expect("Location must be writable.");
-
-    /* These should be about the last things to run. Also write the .gitignore file before this. */
-    initialize_git_repository(config.clone()).expect("Git must be installed.");
-    add_to_git_repository(config.clone()).expect("Git must be installed.");
-
-    Ok(())
-}
-
 fn initialize_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
     let project_directory = config.get_name();
 
@@ -167,7 +98,18 @@ fn add_to_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
     Ok(())
 }
 
-pub fn create_article(config: ProjectConfig) -> Result<(), io::Error> {
+/* -------------------------------------------------------------------- */
+/// This method creates a directory structure based on a ProjectConfig
+/// struct passed in by the caller. It returns a result depending on the
+/// file IO, which may experience an issue.
+///
+/// ## Usage
+///
+/// ```rust
+/// create_structure(config).expect("File IO failed.");
+/// ```
+/* -------------------------------------------------------------------- */
+pub fn create_structure(config: ProjectConfig) -> Result<(), io::Error> {
     let name = config.get_name();
     match fs::create_dir(name.clone()) {
         Ok(_) => println!("Created {} directory.", name.blue()),
@@ -200,10 +142,6 @@ pub fn create_article(config: ProjectConfig) -> Result<(), io::Error> {
         false => println!("Skipping {} directory.", "bib".to_owned().yellow()),
     }
 
-    // Because this is an article, we can go ahead and write an article template w/o testing
-    // that property. If this method were called outside of creating an article, it would be
-    // a bug.
-    // TODO: Write out article template...
     match config.get_doctype() {
         DocumentType::Article => match fs::create_dir(name.clone() + "/tex") {
             Ok(_) => {
@@ -218,11 +156,71 @@ pub fn create_article(config: ProjectConfig) -> Result<(), io::Error> {
             }
             Err(err) => eprintln!("{}", err),
         },
-        DocumentType::Book => {}
-        DocumentType::Thesis => {}
-        DocumentType::Presentation => {}
-        DocumentType::MathArticle => {}
-        DocumentType::Letter => {}
+        DocumentType::Book => match fs::create_dir(name.clone() + "/tex") {
+            Ok(_) => {
+                println!("Created {} directory.", "tex".to_owned().blue());
+                match File::create(name.clone() + "/tex/" + &name + ".tex") {
+                    Ok(mut file) => match file.write_all(ARTICLE_TEMPLATE.as_bytes()) {
+                        Ok(_) => println!("Created {} file.", (name.clone() + ".tex").blue()),
+                        Err(err) => eprintln!("{}", err),
+                    },
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            Err(err) => eprintln!("{}", err),
+        },
+        DocumentType::Thesis => match fs::create_dir(name.clone() + "/tex") {
+            Ok(_) => {
+                println!("Created {} directory.", "tex".to_owned().blue());
+                match File::create(name.clone() + "/tex/" + &name + ".tex") {
+                    Ok(mut file) => match file.write_all(ARTICLE_TEMPLATE.as_bytes()) {
+                        Ok(_) => println!("Created {} file.", (name.clone() + ".tex").blue()),
+                        Err(err) => eprintln!("{}", err),
+                    },
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            Err(err) => eprintln!("{}", err),
+        },
+        DocumentType::Presentation => match fs::create_dir(name.clone() + "/tex") {
+            Ok(_) => {
+                println!("Created {} directory.", "tex".to_owned().blue());
+                match File::create(name.clone() + "/tex/" + &name + ".tex") {
+                    Ok(mut file) => match file.write_all(ARTICLE_TEMPLATE.as_bytes()) {
+                        Ok(_) => println!("Created {} file.", (name.clone() + ".tex").blue()),
+                        Err(err) => eprintln!("{}", err),
+                    },
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            Err(err) => eprintln!("{}", err),
+        },
+        DocumentType::MathArticle => match fs::create_dir(name.clone() + "/tex") {
+            Ok(_) => {
+                println!("Created {} directory.", "tex".to_owned().blue());
+                match File::create(name.clone() + "/tex/" + &name + ".tex") {
+                    Ok(mut file) => match file.write_all(ARTICLE_TEMPLATE.as_bytes()) {
+                        Ok(_) => println!("Created {} file.", (name.clone() + ".tex").blue()),
+                        Err(err) => eprintln!("{}", err),
+                    },
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            Err(err) => eprintln!("{}", err),
+        },
+        DocumentType::Letter => match fs::create_dir(name.clone() + "/tex") {
+            Ok(_) => {
+                println!("Created {} directory.", "tex".to_owned().blue());
+                match File::create(name.clone() + "/tex/" + &name + ".tex") {
+                    Ok(mut file) => match file.write_all(ARTICLE_TEMPLATE.as_bytes()) {
+                        Ok(_) => println!("Created {} file.", (name.clone() + ".tex").blue()),
+                        Err(err) => eprintln!("{}", err),
+                    },
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            Err(err) => eprintln!("{}", err),
+        },
     }
 
     Ok(())

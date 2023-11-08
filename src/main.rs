@@ -70,27 +70,6 @@ pub enum DocumentType {
     Letter,
 }
 
-// fn cli() -> Command {
-//     Command::new("texrs")
-//         .about("Manage a LaTeX project structure.")
-//         .version("v0.1.1")
-//         .subcommand_required(true)
-//         .arg_required_else_help(true)
-//         .allow_external_subcommands(true)
-//         .subcommand(
-//             Command::new("new")
-//                 .about("Instantiate new project structure.")
-//                 .arg(arg!(<NAME> "The new project's name."))
-//                 .arg_required_else_help(true),
-//         )
-//         .subcommand(
-//             Command::new("build")
-//                 .about("Build the current LaTeX project.")
-//                 .arg(arg!(<PATH> "Path to the project structure's root."))
-//                 .arg_required_else_help(true),
-//         )
-// }
-
 fn main() {
     let args = Cli::parse();
 
@@ -104,7 +83,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Article);
-                new::create_article(config);
+                new::create_structure(config);
             }
             DocumentType::Book => {
                 config.set_name(&name);
@@ -112,6 +91,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Book);
+                new::create_structure(config);
             }
             DocumentType::Thesis => {
                 config.set_name(&name);
@@ -119,6 +99,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Thesis);
+                new::create_structure(config);
             }
             DocumentType::Presentation => {
                 config.set_name(&name);
@@ -126,6 +107,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Presentation);
+                new::create_structure(config);
             }
             DocumentType::MathArticle => {
                 config.set_name(&name);
@@ -133,6 +115,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::MathArticle);
+                new::create_structure(config);
             }
             DocumentType::Letter => {
                 config.set_name(&name);
@@ -140,6 +123,7 @@ fn main() {
                 config.set_citations(false);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Letter);
+                new::create_structure(config);
             }
         },
         Commands::Build { path } => {
