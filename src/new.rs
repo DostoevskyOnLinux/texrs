@@ -187,7 +187,7 @@ pub fn create_article(config: ProjectConfig) -> Result<(), io::Error> {
         true => match fs::create_dir(name.clone() + "/bib") {
             Ok(_) => {
                 println!("Created {} directory.", "bib".to_owned().blue());
-                let mut refs = match File::create(name.clone() + "/bib/refs.bib") {
+                let _refs = match File::create(name.clone() + "/bib/refs.bib") {
                     Ok(mut file) => match file.write_all(BIBTEX_TEMPLATE.as_bytes()) {
                         Ok(_) => println!("Created {} file.", "refs.bib".blue()),
                         Err(err) => eprintln!("{}", err),

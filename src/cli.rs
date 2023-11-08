@@ -16,18 +16,18 @@
 // | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use crate::{build::*, config::*, new, DocumentType};
+use crate::{config::*, DocumentType};
 use clap::ArgMatches;
 use colored::*;
 use std::{io, io::Write};
 
 pub fn match_command(matches: ArgMatches) {
     match matches.subcommand() {
-        Some(("new", sub_m)) => {
+        Some(("new", _sub_m)) => {
             // let config = generate_config(sub_m);
             // new::create_dir_structure(config).expect("Location must be writable.");
         }
-        Some(("build", sub_m)) => {
+        Some(("build", _sub_m)) => {
             //let config =
             //    read_config(sub_m).expect("Config file must be present in the directory given.");
             //build_from_config(config).expect("Location must be writable.");

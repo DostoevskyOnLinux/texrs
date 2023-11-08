@@ -16,7 +16,7 @@
 // | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use clap::{Args, Parser, Subcommand, ValueEnum};
+use clap::{Parser, Subcommand, ValueEnum};
 use serde_derive::{Deserialize, Serialize};
 
 #[derive(Debug, Parser)] // requires `derive` feature
@@ -119,7 +119,7 @@ fn main() {
             }
         }
         Commands::Interactive { name } => {
-            let config = cli::generate_config(&name);
+            let _config = cli::generate_config(&name);
         }
     }
 }
