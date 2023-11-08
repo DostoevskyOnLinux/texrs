@@ -104,6 +104,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Article);
+                new::create_article(config);
             }
             DocumentType::Book => {
                 config.set_name(&name);

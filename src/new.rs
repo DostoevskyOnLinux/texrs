@@ -187,7 +187,7 @@ pub fn create_article(config: ProjectConfig) -> Result<(), io::Error> {
         true => match fs::create_dir(name.clone() + "/bib") {
             Ok(_) => {
                 println!("Created {} directory.", "bib".to_owned().blue());
-                let _refs = match File::create(name.clone() + "/bib/refs.bib") {
+                match File::create(name.clone() + "/bib/refs.bib") {
                     Ok(mut file) => match file.write_all(BIBTEX_TEMPLATE.as_bytes()) {
                         Ok(_) => println!("Created {} file.", "refs.bib".blue()),
                         Err(err) => eprintln!("{}", err),
@@ -204,6 +204,26 @@ pub fn create_article(config: ProjectConfig) -> Result<(), io::Error> {
     // that property. If this method were called outside of creating an article, it would be
     // a bug.
     // TODO: Write out article template...
+    match config.get_doctype() {
+        DocumentType::Article => match fs::create_dir(name.clone() + "/tex") {
+            Ok(_) => {
+                println!("Created {} directory.", "tex".to_owned().blue());
+                match File::create(name.clone() + "/tex/" + &name + ".tex") {
+                    Ok(mut file) => match file.write_all(ARTICLE_TEMPLATE.as_bytes()) {
+                        Ok(_) => println!("Created {} file.", (name.clone() + ".tex").blue()),
+                        Err(err) => eprintln!("{}", err),
+                    },
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            Err(err) => eprintln!("{}", err),
+        },
+        DocumentType::Book => {}
+        DocumentType::Thesis => {}
+        DocumentType::Presentation => {}
+        DocumentType::MathArticle => {}
+        DocumentType::Letter => {}
+    }
 
     Ok(())
 }
