@@ -16,7 +16,7 @@
 // | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use crate::{build::*, config::*, new};
+use crate::{build::*, config::*, new, DocumentType};
 use clap::ArgMatches;
 use colored::*;
 use std::{io, io::Write};
@@ -24,13 +24,13 @@ use std::{io, io::Write};
 pub fn match_command(matches: ArgMatches) {
     match matches.subcommand() {
         Some(("new", sub_m)) => {
-            let config = generate_config(sub_m);
-            new::create_dir_structure(config).expect("Location must be writable.");
+            // let config = generate_config(sub_m);
+            // new::create_dir_structure(config).expect("Location must be writable.");
         }
         Some(("build", sub_m)) => {
-            let config = read_config(sub_m.clone())
-                .expect("Config file must be present in the directory given.");
-            build_from_config(config).expect("Location must be writable.");
+            //let config =
+            //    read_config(sub_m).expect("Config file must be present in the directory given.");
+            //build_from_config(config).expect("Location must be writable.");
         }
         _ => unreachable!(),
     }
@@ -46,15 +46,15 @@ pub fn match_command(matches: ArgMatches) {
 /// ```rust
 /// let config = generate_config(args);
 /// let project_name = config.get_name();
-///
+/// ```
 
 /* TODO: Revamp this CLI and add some conditions to make defaults better.
 I should be able to select my doctype and have everything else be OK. */
-fn generate_config(args: &ArgMatches) -> ProjectConfig {
+pub fn generate_config(name: &str) -> ProjectConfig {
     let mut config = ProjectConfig::new();
     let mut input: String;
 
-    let name = args.get_one::<String>("NAME").expect("required").to_owned();
+    let name = name.to_owned();
     config.set_name(&name);
 
     // Select doctype.

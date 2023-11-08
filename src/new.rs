@@ -16,7 +16,10 @@
 // | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use crate::config::{self, *};
+use crate::{
+    config::{self, *},
+    DocumentType,
+};
 use colored::*;
 use std::io;
 use std::io::Write;
@@ -84,6 +87,7 @@ pub fn create_dir_structure(config: ProjectConfig) -> Result<(), io::Error> {
         DocumentType::Book => {
             todo!();
         }
+        _ => {}
     }
 
     config::write_project_config(&config).expect("Location must be writable.");
@@ -159,6 +163,47 @@ fn add_to_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
             String::from_utf8_lossy(&output.stderr)
         );
     }
+
+    Ok(())
+}
+
+pub fn create_article(config: ProjectConfig) -> Result<(), io::Error> {
+    let name = config.get_name();
+    match fs::create_dir(name.clone()) {
+        Ok(_) => println!("Created {} directory.", name.blue()),
+        Err(err) => eprintln!("{}", err),
+    }
+
+    // Check for graphics in the project.
+    match config.get_graphics() {
+        true => match fs::create_dir(name.clone() + "/graphics") {
+            Ok(_) => println!("Created {} directory.", "graphics".to_owned().blue()),
+            Err(err) => eprintln!("{}", err),
+        },
+        false => println!("Skipping {} directory.", "graphics".to_owned().yellow()),
+    }
+
+    match config.get_citations() {
+        true => match fs::create_dir(name.clone() + "/bib") {
+            Ok(_) => {
+                println!("Created {} directory.", "bib".to_owned().blue());
+                let mut refs = match File::create(name.clone() + "/bib/refs.bib") {
+                    Ok(mut file) => match file.write_all(BIBTEX_TEMPLATE.as_bytes()) {
+                        Ok(_) => println!("Created {} file.", "refs.bib".blue()),
+                        Err(err) => eprintln!("{}", err),
+                    },
+                    Err(err) => eprintln!("{}", err),
+                };
+            }
+            Err(err) => eprintln!("{}", err),
+        },
+        false => println!("Skipping {} directory.", "bib".to_owned().yellow()),
+    }
+
+    // Because this is an article, we can go ahead and write an article template w/o testing
+    // that property. If this method were called outside of creating an article, it would be
+    // a bug.
+    // TODO: Write out article template...
 
     Ok(())
 }
