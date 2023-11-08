@@ -105,11 +105,41 @@ fn main() {
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Article);
             }
-            DocumentType::Book => {}
-            DocumentType::Thesis => {}
-            DocumentType::Presentation => {}
-            DocumentType::MathArticle => {}
-            DocumentType::Letter => {}
+            DocumentType::Book => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Book);
+            }
+            DocumentType::Thesis => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Thesis);
+            }
+            DocumentType::Presentation => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Presentation);
+            }
+            DocumentType::MathArticle => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::MathArticle);
+            }
+            DocumentType::Letter => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(false);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Letter);
+            }
         },
         Commands::Build { path } => {
             let config = build::read_config(&path).expect("Config file must be present.");
