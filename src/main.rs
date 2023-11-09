@@ -152,7 +152,11 @@ fn main() {
             }
         }
         Commands::Interactive { name } => {
-            let _config = cli::generate_config(&name);
+            let config = cli::generate_config(&name);
+            match new::create_structure(config) {
+                Ok(_) => {}
+                Err(err) => eprintln!("{}", err),
+            }
         }
     }
 }

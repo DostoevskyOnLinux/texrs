@@ -221,6 +221,11 @@ pub fn create_structure(config: ProjectConfig) -> Result<(), io::Error> {
         },
     }
 
+    match write_project_config(&config) {
+        Ok(_) => println!("[  {}  ] Config written!", "OK".to_string().green()),
+        Err(err) => eprintln!("{}", err),
+    }
+
     match initialize_git_repository(config.clone()) {
         Ok(_) => match add_to_git_repository(config.clone()) {
             Ok(_) => println!("Created {} repository.", "git".to_owned().blue()),
