@@ -20,6 +20,7 @@ Personal project for now - this isn't actually useful to anyone but me.
 ## FEATURES
 
 - [x] Generate a LaTeX project structure from the command line.
+- [ ] Feature a nice CLI menu that shows options. (In progress with terminal-menu-rs...)
 - [x] Implement a 'paper' template.
 - [x] Implement a 'letter' template.
 - [ ] Implement a multi-chapter book template.
@@ -30,4 +31,4 @@ Personal project for now - this isn't actually useful to anyone but me.
 - [ ] Create a remote repository to host it.
 - [ ] Multiplatform. It should work on all the major operating systems (Arch, Fedora, Debian, BSD, and maybe even that MacOS thing. Non-standard OSes not supported, Windows!)
 - [x] Build the project with the local LaTeX install.
-- [...] Actually work well.
+- [ ] Actually work well.

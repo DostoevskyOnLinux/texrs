@@ -13,7 +13,7 @@
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 // | Copyright (c) 2023 Ethan Barry <ethanbarry@howdytx.net>                                                                           |
 // | Feel free to contact the author if you do come across this source code for some reason...                                         |
-// | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
+// | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
 use crate::DocumentType;

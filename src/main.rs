@@ -13,7 +13,7 @@
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 // | Copyright (c) 2023 Ethan Barry <ethanbarry@howdytx.net>                                                                           |
 // | Feel free to contact the author if you do come across this source code for some reason...                                         |
-// | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
+// | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
 use clap::{Parser, Subcommand, ValueEnum};
@@ -152,6 +152,7 @@ fn main() {
             }
         }
         Commands::Interactive { name } => {
+            cli::config_menu();
             let config = cli::generate_config(&name);
             match new::create_structure(config) {
                 Ok(_) => {}

@@ -13,13 +13,14 @@
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 // | Copyright (c) 2023 Ethan Barry <ethanbarry@howdytx.net>                                                                           |
 // | Feel free to contact the author if you do come across this source code for some reason...                                         |
-// | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
+// | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
 use crate::{config::*, DocumentType};
 use clap::ArgMatches;
 use colored::*;
 use std::{io, io::Write};
+use terminal_menu as tm;
 
 pub fn match_command(matches: ArgMatches) {
     match matches.subcommand() {
@@ -197,4 +198,19 @@ pub fn generate_config(name: &str) -> ProjectConfig {
         }
     }
     config
+}
+
+pub fn config_menu() -> Result<(), io::Error> {
+    let menu = tm::menu(vec![
+        tm::label("Select Driver"),
+        tm::list("Drivers:", vec!["pdflatex", "xelatex", "lualatex"]),
+        tm::button("Exit"),
+    ]);
+    tm::run(&menu);
+    {
+        let mm = tm::mut_menu(&menu);
+        println!("{}", mm.selection_value("li"));
+        println!("{}", mm.selection_value("sc"));
+    }
+    Ok(())
 }
