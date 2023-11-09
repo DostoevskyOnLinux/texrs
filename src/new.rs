@@ -16,10 +16,7 @@
 // | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use crate::{
-    config::{*},
-    DocumentType,
-};
+use crate::{config::*, DocumentType};
 use colored::*;
 use std::io;
 use std::io::Write;
@@ -30,6 +27,7 @@ const ARTICLE_TEMPLATE: &str = include_str!("../res/article.tex");
 const LETTER_TEMPLATE: &str = include_str!("../res/letter.tex");
 const BIBTEX_TEMPLATE: &str = include_str!("../res/refs.bib");
 
+// TODO: Remove .expect() in these functions.
 fn initialize_git_repository(config: ProjectConfig) -> Result<(), io::Error> {
     let project_directory = config.get_name();
 
@@ -212,7 +210,7 @@ pub fn create_structure(config: ProjectConfig) -> Result<(), io::Error> {
             Ok(_) => {
                 println!("Created {} directory.", "tex".to_owned().blue());
                 match File::create(name.clone() + "/tex/" + &name + ".tex") {
-                    Ok(mut file) => match file.write_all(ARTICLE_TEMPLATE.as_bytes()) {
+                    Ok(mut file) => match file.write_all(LETTER_TEMPLATE.as_bytes()) {
                         Ok(_) => println!("Created {} file.", (name.clone() + ".tex").blue()),
                         Err(err) => eprintln!("{}", err),
                     },
@@ -221,6 +219,14 @@ pub fn create_structure(config: ProjectConfig) -> Result<(), io::Error> {
             }
             Err(err) => eprintln!("{}", err),
         },
+    }
+
+    match initialize_git_repository(config.clone()) {
+        Ok(_) => match add_to_git_repository(config.clone()) {
+            Ok(_) => println!("Created {} repository.", "git".to_owned().blue()),
+            Err(err) => eprintln!("{}", err),
+        },
+        Err(err) => eprintln!("{}", err),
     }
 
     Ok(())

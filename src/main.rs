@@ -83,7 +83,10 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Article);
-                new::create_structure(config);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
             }
             DocumentType::Book => {
                 config.set_name(&name);
@@ -91,7 +94,10 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Book);
-                new::create_structure(config);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
             }
             DocumentType::Thesis => {
                 config.set_name(&name);
@@ -99,7 +105,10 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Thesis);
-                new::create_structure(config);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
             }
             DocumentType::Presentation => {
                 config.set_name(&name);
@@ -107,7 +116,10 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Presentation);
-                new::create_structure(config);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
             }
             DocumentType::MathArticle => {
                 config.set_name(&name);
@@ -115,7 +127,10 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::MathArticle);
-                new::create_structure(config);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
             }
             DocumentType::Letter => {
                 config.set_name(&name);
@@ -123,7 +138,10 @@ fn main() {
                 config.set_citations(false);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Letter);
-                new::create_structure(config);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
             }
         },
         Commands::Build { path } => {
