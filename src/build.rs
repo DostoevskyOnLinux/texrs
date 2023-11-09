@@ -17,7 +17,7 @@
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
 use crate::config::*;
-use clap::ArgMatches;
+
 use colored::*;
 use std::fs;
 use std::fs::File;
@@ -115,9 +115,8 @@ pub fn build_from_config(config: ProjectConfig) -> Result<(), io::Error> {
     Ok(())
 }
 
-pub fn read_config(args: ArgMatches) -> Result<ProjectConfig, io::Error> {
-    let project_path =
-        args.get_one::<String>("PATH").expect("required").to_owned() + "/config.toml";
+pub fn read_config(args: &str) -> Result<ProjectConfig, io::Error> {
+    let project_path = args.to_owned() + "/config.toml";
     let mut file = File::open(project_path).expect("config.toml must be present"); // Replace with the path to your TOML file
     let mut toml_str = String::new();
     file.read_to_string(&mut toml_str)?;

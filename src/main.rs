@@ -16,32 +16,149 @@
 // | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
+use clap::{Parser, Subcommand, ValueEnum};
+use serde_derive::{Deserialize, Serialize};
 
-use clap::{arg, Command};
+#[derive(Debug, Parser)] // requires `derive` feature
+#[command(name = "texrs")]
+#[command(about = "Manage a LaTeX project structure.", long_about = None)]
+struct Cli {
+    #[command(subcommand)]
+    command: Commands,
+}
 
-fn cli() -> Command {
-    Command::new("texrs")
-        .about("Manage a LaTeX project structure.")
-        .subcommand_required(true)
-        .arg_required_else_help(true)
-        .allow_external_subcommands(true)
-        .subcommand(
-            Command::new("new")
-                .about("Instantiate new project structure.")
-                .arg(arg!(<NAME> "The new project's name."))
-                .arg_required_else_help(true),
-        )
-        .subcommand(
-            Command::new("build")
-                .about("Build the current LaTeX project.")
-                .arg(arg!(<PATH> "Path to the project structure's root."))
-                .arg_required_else_help(true),
-        )
+#[derive(Debug, Subcommand)]
+enum Commands {
+    /// Create a new LaTeX project.
+    #[command(arg_required_else_help = true)]
+    New {
+        #[arg(
+            long,
+            require_equals = true,
+            value_name = "WHEN",
+            num_args = 0..=1,
+            default_value_t = DocumentType::Article,
+            default_missing_value = "always",
+            value_enum
+        )]
+        /// Type of template.
+        template: DocumentType,
+        /// Project name.
+        name: String,
+    },
+    /// Build an existing project.
+    #[command(arg_required_else_help = true)]
+    Build {
+        /// Path to the configuration file.
+        path: String,
+    },
+    /// Interactive project setup. Recommended.
+    #[command(arg_required_else_help = true)]
+    Interactive {
+        /// Project name.
+        name: String,
+    },
+}
+
+#[derive(ValueEnum, Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum DocumentType {
+    Article,
+    Book,
+    Thesis,
+    Presentation,
+    MathArticle,
+    Letter,
 }
 
 fn main() {
-    let matches = cli().get_matches();
-    crate::cli::match_command(matches);
+    let args = Cli::parse();
+
+    let mut config = config::ProjectConfig::new();
+
+    match args.command {
+        Commands::New { template, name } => match template {
+            DocumentType::Article => {
+                config.set_name(&name);
+                config.set_driver("pdflatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Article);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            DocumentType::Book => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Book);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            DocumentType::Thesis => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Thesis);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            DocumentType::Presentation => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Presentation);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            DocumentType::MathArticle => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(true);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::MathArticle);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            DocumentType::Letter => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(false);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Letter);
+                match new::create_structure(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+        },
+        Commands::Build { path } => {
+            let config = build::read_config(&path).expect("Config file must be present.");
+            match build::build_from_config(config) {
+                Ok(()) => println!("Success!"),
+                Err(err) => eprintln!("{}", err),
+            }
+        }
+        Commands::Interactive { name } => {
+            let config = cli::generate_config(&name);
+            match new::create_structure(config) {
+                Ok(_) => {}
+                Err(err) => eprintln!("{}", err),
+            }
+        }
+    }
 }
 
 pub mod build;

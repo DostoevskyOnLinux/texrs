@@ -16,18 +16,12 @@
 // | <https://github.com/DostoevskyOnLinux> is the author's profile.                                                                   |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
+use crate::DocumentType;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use std::fs::File;
 use std::io::Write;
 use toml;
-
-#[derive(Clone, Serialize, Deserialize)]
-pub enum DocumentType {
-    Article,
-    Book,
-    Letter,
-}
 
 /// The ProjectConfig struct stores five pieces of
 /// information about the project: what name, driver,

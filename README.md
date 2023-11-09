@@ -24,10 +24,10 @@ Personal project for now - this isn't actually useful to anyone but me.
 - [x] Implement a 'letter' template.
 - [ ] Implement a multi-chapter book template.
 - [ ] Implement a nice thesis template.
-
+- [ ] Implement a whole lotta templates... Oh boy...
 - [x] Read and write project config to a TOML file.
 - [x] Initialize a Git repository including the document.
 - [ ] Create a remote repository to host it.
-
+- [ ] Multiplatform. It should work on all the major operating systems (Arch, Fedora, Debian, BSD, and maybe even that MacOS thing. Non-standard OSes not supported, Windows!)
 - [x] Build the project with the local LaTeX install.
-- [ ] Actually work well.
+- [...] Actually work well.
