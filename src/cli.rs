@@ -20,7 +20,7 @@ use crate::{config::*, DocumentType};
 use colored::*;
 use std::{io, io::Write};
 
-fn prompt_tf(prompt: &str, colored: &str, color: &str) -> Option<bool> {
+pub fn prompt_tf(prompt: &str, colored: &str, color: &str) -> Option<bool> {
     let mut input = String::new();
     loop {
         input.clear();

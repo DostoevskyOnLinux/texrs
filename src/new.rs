@@ -16,7 +16,7 @@
 // | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use crate::{config::*, DocumentType};
+use crate::{config::*, DocumentType, cli};
 use colored::*;
 use std::io;
 use std::io::Write;
@@ -233,6 +233,14 @@ pub fn create_structure(config: ProjectConfig) -> Result<(), io::Error> {
         },
         Err(err) => eprintln!("{}", err),
     }
+
+    Ok(())
+}
+
+// Better error handling in here:
+pub fn create_directories(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
+    fs::create_dir(config.get_name())?;
+
 
     Ok(())
 }
