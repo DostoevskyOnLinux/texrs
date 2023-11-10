@@ -16,7 +16,6 @@
 // | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use crate::config::ProjectConfig;
 use clap::{Parser, Subcommand, ValueEnum};
 use serde_derive::{Deserialize, Serialize};
 
