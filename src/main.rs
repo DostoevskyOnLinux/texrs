@@ -16,6 +16,7 @@
 // | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
+use crate::config::ProjectConfig;
 use clap::{Parser, Subcommand, ValueEnum};
 use serde_derive::{Deserialize, Serialize};
 
@@ -152,8 +153,7 @@ fn main() {
             }
         }
         Commands::Interactive { name } => {
-            cli::config_menu();
-            let config = cli::generate_config(&name);
+            let config = cli::config_menu(&name);
             match new::create_structure(config) {
                 Ok(_) => {}
                 Err(err) => eprintln!("{}", err),

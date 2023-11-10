@@ -20,7 +20,7 @@ Personal project for now - this isn't actually useful to anyone but me.
 ## FEATURES
 
 - [x] Generate a LaTeX project structure from the command line.
-- [ ] Feature a nice CLI menu that shows options. (In progress with terminal-menu-rs...)
+- [ ] Feature a nice CLI menu that shows options.
 - [x] Implement a 'paper' template.
 - [x] Implement a 'letter' template.
 - [ ] Implement a multi-chapter book template.
