@@ -16,8 +16,9 @@
 // | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use crate::{config::*, DocumentType, cli};
+use crate::{cli, config::*, DocumentType};
 use colored::*;
+use std::error::Error;
 use std::io;
 use std::io::Write;
 use std::process::Command;
@@ -240,7 +241,148 @@ pub fn create_structure(config: ProjectConfig) -> Result<(), io::Error> {
 // Better error handling in here:
 pub fn create_directories(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
     fs::create_dir(config.get_name())?;
+    if config.get_graphics() {
+        fs::create_dir(config.get_name() + "/graphics")?;
+        println!("[  {}  ] Created graphics dir.", "OK".green());
+    } else {
+        println!("[ {} ] Skipped graphics dir.", "WARN".yellow());
+    }
 
+    if config.get_citations() {
+        fs::create_dir(config.get_name() + "/bib")?;
+        let mut file = File::create(config.get_name() + "/bib/refs.bib")?;
+        file.write_all(BIBTEX_TEMPLATE.as_bytes())?;
+        println!("[  {}  ] Created references dir.", "OK".green());
+    } else {
+        println!("[ {} ] Skipped references dir.", "WARN".yellow());
+    }
+
+    fs::create_dir(config.get_name() + "/tex")?;
+
+    match config.get_doctype() {
+        DocumentType::Article => {
+            let mut file =
+                File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
+            file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            println!("[  {}  ] Created tex dir.", "OK".green());
+        }
+        DocumentType::Book => {
+            let mut file =
+                File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
+            file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            println!("[  {}  ] Created tex dir.", "OK".green());
+        }
+        DocumentType::Thesis => {
+            let mut file =
+                File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
+            file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            println!("[  {}  ] Created tex dir.", "OK".green());
+        }
+        DocumentType::MathArticle => {
+            let mut file =
+                File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
+            file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            println!("[  {}  ] Created tex dir.", "OK".green());
+        }
+        DocumentType::Presentation => {
+            let mut file =
+                File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
+            file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            println!("[  {}  ] Created tex dir.", "OK".green());
+        }
+        DocumentType::Letter => {
+            let mut file =
+                File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
+            file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            println!("[  {}  ] Created tex dir.", "OK".green());
+        }
+        _ => {}
+    }
+
+    match write_project_config(&config) {
+        Ok(_) => println!("[  {}  ] Project config written.", "OK".green()),
+        Err(err) => {
+            println!("[ {} ]", "FAIL".red());
+            eprintln!("{}", err);
+        }
+    }
+
+    match git_init(config.clone()) {
+        Ok(_) => {}
+        Err(err) => {
+            println!("[ {} ] Git init failed.", "FAIL".red());
+            eprintln!("{}", err);
+        }
+    }
+    match git_add(config.clone()) {
+        Ok(_) => {}
+        Err(err) => {
+            println!("[ {} ] Git add failed.", "FAIL".red());
+            eprintln!("{}", err);
+        }
+    }
+    match git_commit(config) {
+        Ok(_) => {}
+        Err(err) => {
+            println!("[ {} ] Git commit failed.", "FAIL".red());
+            eprintln!("{}", err);
+        }
+    }
 
     Ok(())
+}
+
+fn git_init(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
+    let mut git_init = Command::new("git");
+    let output = git_init
+        .args(&["init"])
+        .current_dir(config.get_name())
+        .output()?;
+    if output.status.success() {
+        println!("[  {}  ] Git repository initialized.", "OK".green());
+        return Ok(());
+    } else {
+        return Err(Box::new(io::Error::new(
+            io::ErrorKind::Other,
+            "git failed.",
+        )));
+    }
+}
+
+fn git_add(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
+    let mut git_add = Command::new("git");
+    if git_add
+        .args(&["add", "."])
+        .current_dir(config.get_name())
+        .output()?
+        .status
+        .success()
+    {
+        println!("[  {}  ] Git added files.", "OK".green());
+        Ok(())
+    } else {
+        return Err(Box::new(io::Error::new(
+            io::ErrorKind::Other,
+            "git failed.",
+        )));
+    }
+}
+
+fn git_commit(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
+    let mut git_commit = Command::new("git");
+    if git_commit
+        .args(&["commit", "-m", "\"Initialize repository.\""])
+        .current_dir(config.get_name())
+        .output()?
+        .status
+        .success()
+    {
+        println!("[  {}  ] Git repository committed.", "OK".green());
+        Ok(())
+    } else {
+        return Err(Box::new(io::Error::new(
+            io::ErrorKind::Other,
+            "git failed.",
+        )));
+    }
 }

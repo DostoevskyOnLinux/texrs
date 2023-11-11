@@ -83,7 +83,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Article);
-                match new::create_structure(config) {
+                match new::create_directories(config) {
                     Ok(_) => {}
                     Err(err) => eprintln!("{}", err),
                 }
@@ -94,7 +94,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Book);
-                match new::create_structure(config) {
+                match new::create_directories(config) {
                     Ok(_) => {}
                     Err(err) => eprintln!("{}", err),
                 }
@@ -105,7 +105,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Thesis);
-                match new::create_structure(config) {
+                match new::create_directories(config) {
                     Ok(_) => {}
                     Err(err) => eprintln!("{}", err),
                 }
@@ -116,7 +116,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Presentation);
-                match new::create_structure(config) {
+                match new::create_directories(config) {
                     Ok(_) => {}
                     Err(err) => eprintln!("{}", err),
                 }
@@ -127,7 +127,7 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::MathArticle);
-                match new::create_structure(config) {
+                match new::create_directories(config) {
                     Ok(_) => {}
                     Err(err) => eprintln!("{}", err),
                 }
@@ -138,7 +138,7 @@ fn main() {
                 config.set_citations(false);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Letter);
-                match new::create_structure(config) {
+                match new::create_directories(config) {
                     Ok(_) => {}
                     Err(err) => eprintln!("{}", err),
                 }
@@ -153,7 +153,7 @@ fn main() {
         }
         Commands::Interactive { name } => {
             let config = cli::config_menu(&name);
-            match new::create_structure(config) {
+            match new::create_directories(config) {
                 Ok(_) => {}
                 Err(err) => eprintln!("{}", err),
             }
