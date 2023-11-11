@@ -19,6 +19,7 @@
 use crate::DocumentType;
 use serde_derive::Deserialize;
 use serde_derive::Serialize;
+use std::error::Error;
 use std::fs::File;
 use std::io::Write;
 use toml;
@@ -95,11 +96,10 @@ impl ProjectConfig {
     }
 }
 
-pub fn write_project_config(config: &ProjectConfig) -> Result<(), toml::ser::Error> {
+pub fn write_project_config(config: &ProjectConfig) -> Result<(), Box<dyn Error>> {
     let root_dir = config.get_name() + "/";
     let toml_str = toml::to_string(&config)?;
-    let mut file = File::create(root_dir + "config.toml").expect("Location must be writable.");
-    file.write_all(toml_str.as_bytes())
-        .expect("Location must be writable.");
+    let mut file = File::create(root_dir + "config.toml")?;
+    file.write_all(toml_str.as_bytes())?;
     Ok(())
 }

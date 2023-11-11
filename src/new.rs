@@ -16,7 +16,7 @@
 // | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
-use crate::{cli, config::*, DocumentType};
+use crate::{config::*, DocumentType};
 use colored::*;
 use std::error::Error;
 use std::io;
@@ -93,10 +93,9 @@ pub fn create_directories(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
         DocumentType::Letter => {
             let mut file =
                 File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
-            file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            file.write_all(LETTER_TEMPLATE.as_bytes())?;
             println!("[  {}  ] Created tex dir.", "OK".green());
         }
-        _ => {}
     }
 
     match write_project_config(&config) {
