@@ -19,107 +19,83 @@
 use crate::config::*;
 
 use colored::*;
+use std::error::Error;
 use std::fs;
 use std::fs::File;
-use std::io;
 use std::io::Read;
 use std::process::Command;
 use toml;
 
-pub fn build_from_config(config: ProjectConfig) -> Result<(), io::Error> {
-    let project_name = &config.get_name().to_owned();
-    let target_name = project_name.clone() + "/target";
-    // Test whether the target dir. exists already.
-    if let Err(_) = fs::metadata(&target_name) {
-        match fs::create_dir(&target_name) {
-            Ok(_) => println!("Created {} directory.", target_name.clone().blue()),
-            Err(err) => eprintln!(
-                "Failed to create {} directory. Error: {}",
-                target_name.clone().blue(),
-                err
-            ),
-        }
+pub fn read_config(path: &str) -> Result<ProjectConfig, Box<dyn Error>> {
+    let path = path.trim();
+    let mut toml_str = String::new();
+    if path == "." {
+        let mut file = File::open("config.toml")?;
+        file.read_to_string(&mut toml_str)?;
     } else {
-        println!(
-            "Directory {} exists; skipping...",
-            target_name.clone().blue()
-        );
+        let mut file = File::open(path.to_owned() + "/config.toml")?;
+        file.read_to_string(&mut toml_str)?;
     }
-
-    let mut tex_builder = Command::new(config.get_driver());
-    tex_builder
-        .args(&["../tex/".to_owned() + project_name + ".tex"])
-        .current_dir(project_name.clone() + "/target");
-    let project_file_name = "../tex/".to_owned() + project_name + ".tex";
-    println!(
-        "Running {} to compile {} in {}{}...",
-        config.get_driver().blue(),
-        project_file_name.blue(),
-        project_name.to_owned().blue(),
-        "/target".blue()
-    );
-
-    let output = tex_builder.output().expect("Driver failed to build.");
-    if output.status.success() {
-        println!("LaTeX compiled successfully in {}.", target_name.blue());
-    } else {
-        eprintln!(
-            "Failed to compile LaTeX:\n{}",
-            String::from_utf8_lossy(&output.stderr)
-        );
-    }
-
-    if config.get_citations() {
-        let mut biber = Command::new("biber");
-        biber
-            .args(&[project_name])
-            .current_dir(project_name.to_owned() + "/tex");
-        println!("Running {} to compile citations...", "biber".blue());
-
-        let biber_output = biber.output().expect("Biber failed to initialize.");
-        if biber_output.status.success() {
-            println!("Citations generated for {}...", project_name.green());
-        } else {
-            eprintln!(
-                "Failed to generate citations for {}:\n{}",
-                project_name.red(),
-                String::from_utf8_lossy(&biber_output.stderr)
-            );
-        }
-    }
-
-    if config.get_citations() || config.get_graphics() {
-        let mut final_output = Command::new(config.get_driver());
-        final_output
-            .args(&["../tex/".to_owned() + project_name + ".tex"])
-            .current_dir(project_name.clone() + "/target");
-        let project_file_name = "../tex/".to_owned() + project_name + ".tex";
-        println!(
-            "Running {} to compile {} in {}{}...",
-            config.get_driver().blue(),
-            project_file_name.blue(),
-            project_name.to_owned().blue(),
-            "/target".blue()
-        );
-
-        let output = tex_builder.output().expect("Driver failed to build.");
-        if output.status.success() {
-            println!("LaTeX compiled successfully in {}.", target_name.blue());
-        } else {
-            eprintln!(
-                "Failed to compile LaTeX:\n{}",
-                String::from_utf8_lossy(&output.stderr)
-            );
-        }
-    }
-    Ok(())
+    let config: ProjectConfig = toml::from_str(&toml_str)?;
+    Ok(config)
 }
 
-pub fn read_config(args: &str) -> Result<ProjectConfig, io::Error> {
-    let project_path = args.to_owned() + "/config.toml";
-    let mut file = File::open(project_path).expect("config.toml must be present"); // Replace with the path to your TOML file
-    let mut toml_str = String::new();
-    file.read_to_string(&mut toml_str)?;
-    let project_config: ProjectConfig = toml::from_str(&toml_str).expect("TOML syntax invalid.");
-    Ok(project_config)
+pub fn build_project(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
+    if let Err(_) = fs::metadata(config.get_name() + "/target") {
+        fs::create_dir(config.get_name() + "/target")?;
+        println!("[ {} ] Creating target dir.", "FAIL".red());
+    } else {
+        println!("[  {}  ] Target dir. exists; skipping!", "OK".green());
+    }
+
+    let mut num_of_passes = 1;
+    if config.get_citations() {
+        num_of_passes += 1;
+    }
+    if config.get_graphics() {
+        num_of_passes += 1;
+    }
+
+    for i in 0..num_of_passes {
+        let mut tex_builder = Command::new(config.get_driver());
+        tex_builder
+            .args(&["../tex/".to_owned() + &config.get_name() + ".tex"])
+            .current_dir(config.get_name() + "/target");
+
+        let output = tex_builder.output()?;
+        if output.status.success() {
+            println!(
+                "[  {}  ] Ran {} on pass {}.",
+                "OK".green(),
+                config.get_driver().as_str().blue(),
+                i.to_string().as_str().blue()
+            );
+            if i == num_of_passes {
+                println!("[  {}  ] Document compiled successfully!", "OK".green());
+            }
+        }
+
+        if i == 1 && config.get_citations() {
+            let mut biber = Command::new("biber");
+            biber
+                .args(&[config.get_name()])
+                .current_dir(config.get_name() + "/tex");
+            let biber_output = biber.output()?;
+            if biber_output.status.success() {
+                println!(
+                    "[  {}  ] Ran biber on pass {}.",
+                    "OK".green(),
+                    i.to_string().as_str().blue()
+                );
+            } else {
+                println!(
+                    "[ {} ] Biber failed with the following error:",
+                    "FAIL".red()
+                );
+                eprintln!("{}", String::from_utf8_lossy(&biber_output.stderr));
+            }
+        }
+    }
+
+    Ok(())
 }

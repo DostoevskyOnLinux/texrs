@@ -146,7 +146,7 @@ fn main() {
         },
         Commands::Build { path } => {
             let config = build::read_config(&path).expect("Config file must be present.");
-            match build::build_from_config(config) {
+            match build::build_project(config) {
                 Ok(()) => println!("Success!"),
                 Err(err) => eprintln!("{}", err),
             }
