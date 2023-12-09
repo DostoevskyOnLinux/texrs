@@ -67,6 +67,7 @@ pub enum DocumentType {
     Thesis,
     Presentation,
     MathArticle,
+    Notes,
     Letter,
 }
 
@@ -127,6 +128,17 @@ fn main() {
                 config.set_citations(true);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::MathArticle);
+                match new::create_directories(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            DocumentType::Notes => {
+                config.set_name(&name);
+                config.set_driver("pdflatex");
+                config.set_citations(false);
+                config.set_graphics(false);
+                config.set_doctype(DocumentType::Notes);
                 match new::create_directories(config) {
                     Ok(_) => {}
                     Err(err) => eprintln!("{}", err),

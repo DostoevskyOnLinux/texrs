@@ -27,6 +27,7 @@ use std::{fs, fs::File};
 const ARTICLE_TEMPLATE: &str = include_str!("../res/article.tex");
 const LETTER_TEMPLATE: &str = include_str!("../res/letter.tex");
 const BIBTEX_TEMPLATE: &str = include_str!("../res/refs.bib");
+const NOTES_TEMPLATE: &str = include_str!("../res/notes.tex");
 
 /* -------------------------------------------------------------------- */
 /// This method creates a directory structure based on a ProjectConfig
@@ -88,6 +89,12 @@ pub fn create_directories(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
             let mut file =
                 File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
             file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            println!("[  {}  ] Created tex dir.", "OK".green());
+        }
+        DocumentType::Notes => {
+            let mut file =
+                File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
+            file.write_all(NOTES_TEMPLATE.as_bytes())?;
             println!("[  {}  ] Created tex dir.", "OK".green());
         }
         DocumentType::Letter => {

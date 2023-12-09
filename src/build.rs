@@ -43,7 +43,7 @@ pub fn read_config(path: &str) -> Result<ProjectConfig, Box<dyn Error>> {
 pub fn build_project(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
     if let Err(_) = fs::metadata(config.get_name() + "/target") {
         fs::create_dir(config.get_name() + "/target")?;
-        println!("[ {} ] Creating target dir.", "FAIL".red());
+        println!("[  {}  ] Creating target dir.", "OK".green());
     } else {
         println!("[  {}  ] Target dir. exists; skipping!", "OK".green());
     }

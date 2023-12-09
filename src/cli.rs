@@ -129,7 +129,7 @@ pub fn config_menu(name: &str) -> ProjectConfig {
     // Prompt for DocumentType:
     match prompt_selection(
         "Select document type",
-        "(A)rticle, (b)ook, (l)etter, (m)athematical article, (p)resentation, (t)hesis",
+        "(A)rticle, (b)ook, (l)etter, (m)athematical article, (n)otes, (p)resentation, (t)hesis",
         "green",
     )
     .unwrap_or_default()
@@ -139,6 +139,7 @@ pub fn config_menu(name: &str) -> ProjectConfig {
         "B" | "b" => config.set_doctype(DocumentType::Book),
         "L" | "l" => config.set_doctype(DocumentType::Letter),
         "M" | "m" => config.set_doctype(DocumentType::MathArticle),
+        "N" | "n" => config.set_doctype(DocumentType::Notes),
         "P" | "p" => config.set_doctype(DocumentType::Presentation),
         "T" | "t" => config.set_doctype(DocumentType::Thesis),
         _ => config.set_doctype(DocumentType::Article),
