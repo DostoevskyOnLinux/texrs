@@ -68,7 +68,7 @@ impl ProjectConfig {
     }
 
     pub fn get_doctype(&self) -> DocumentType {
-        self.doctype.clone()
+        self.doctype
     }
 
     pub fn set_name(&mut self, name: &str) {
@@ -104,6 +104,12 @@ impl ProjectConfig {
             graphics: true,
             doctype: DocumentType::Letter,
         }
+    }
+}
+
+impl Default for ProjectConfig {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

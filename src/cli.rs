@@ -22,88 +22,84 @@ use std::{io, io::Write};
 
 pub fn prompt_tf(prompt: &str, colored: &str, color: &str) -> Option<bool> {
     let mut input = String::new();
-    loop {
-        input.clear();
-        match color {
-            "blue" => print!(
-                "{}? {} (Y/n): ",
-                prompt.to_owned().trim(),
-                colored.trim().to_owned().blue()
-            ),
-            "red" => print!(
-                "{}? {} (Y/n): ",
-                prompt.to_owned().trim(),
-                colored.trim().to_owned().red()
-            ),
-            "green" => print!(
-                "{}? {} (Y/n): ",
-                prompt.to_owned().trim(),
-                colored.trim().to_owned().green()
-            ),
-            "yellow" => print!(
-                "{}? {} (Y/n): ",
-                prompt.to_owned().trim(),
-                colored.trim().to_owned().yellow()
-            ),
-            _ => print!("{} (Y/n): ", prompt.to_owned().trim()),
+    input.clear();
+    match color {
+        "blue" => print!(
+            "{}? {} (Y/n): ",
+            prompt.to_owned().trim(),
+            colored.trim().to_owned().blue()
+        ),
+        "red" => print!(
+            "{}? {} (Y/n): ",
+            prompt.to_owned().trim(),
+            colored.trim().to_owned().red()
+        ),
+        "green" => print!(
+            "{}? {} (Y/n): ",
+            prompt.to_owned().trim(),
+            colored.trim().to_owned().green()
+        ),
+        "yellow" => print!(
+            "{}? {} (Y/n): ",
+            prompt.to_owned().trim(),
+            colored.trim().to_owned().yellow()
+        ),
+        _ => print!("{} (Y/n): ", prompt.to_owned().trim()),
+    }
+    let _ = io::stdout().flush();
+    match io::stdin().read_line(&mut input) {
+        Ok(_) => {}
+        Err(_) => {
+            eprintln!("Invalid input; continuing!");
         }
-        let _ = io::stdout().flush();
-        match io::stdin().read_line(&mut input) {
-            Ok(_) => {}
-            Err(_) => {
-                eprintln!("Invalid input; continuing!");
-            }
-        }
-        input = input.trim().to_string();
-        return match &input as &str {
-            "Y" | "y" => Some(true),
-            "N" | "n" => Some(false),
-            _ => None,
-        };
+    }
+    input = input.trim().to_string();
+    match &input as &str {
+        "Y" | "y" => Some(true),
+        "N" | "n" => Some(false),
+        _ => None,
     }
 }
 
 fn prompt_selection(prompt: &str, colored: &str, color: &str) -> Option<String> {
     let mut input = String::new();
-    loop {
-        input.clear();
-        match color {
-            "blue" => print!(
-                "{}: [{}]: ",
-                prompt.trim().to_owned(),
-                colored.trim().to_owned().blue()
-            ),
-            "red" => print!(
-                "{}: [{}]: ",
-                prompt.trim().to_owned(),
-                colored.trim().to_owned().red()
-            ),
-            "green" => print!(
-                "{}: [{}]: ",
-                prompt.trim().to_owned(),
-                colored.trim().to_owned().green()
-            ),
-            "yellow" => print!(
-                "{}: [{}]: ",
-                prompt.trim().to_owned(),
-                colored.trim().to_owned().yellow()
-            ),
-            _ => print!(
-                "{}: [{}]: ",
-                prompt.trim().to_owned(),
-                colored.trim().to_owned()
-            ),
-        }
-        let _ = io::stdout().flush();
-        match io::stdin().read_line(&mut input) {
-            Ok(_) => {}
-            Err(_) => {
-                eprintln!("Invalid input; continuing!");
-            }
-        }
-        input = input.trim().to_string();
-        return Some(input);
+    input.clear();
+    match color {
+        "blue" => print!(
+            "{}: [{}]: ",
+            prompt.trim().to_owned(),
+            colored.trim().to_owned().blue()
+        ),
+        "red" => print!(
+            "{}: [{}]: ",
+            prompt.trim().to_owned(),
+            colored.trim().to_owned().red()
+        ),
+        "green" => print!(
+            "{}: [{}]: ",
+            prompt.trim().to_owned(),
+            colored.trim().to_owned().green()
+        ),
+        "yellow" => print!(
+            "{}: [{}]: ",
+            prompt.trim().to_owned(),
+            colored.trim().to_owned().yellow()
+        ),
+        _ => print!(
+            "{}: [{}]: ",
+            prompt.trim().to_owned(),
+            colored.trim().to_owned()
+        ),
     }
+    let _ = io::stdout().flush();
+    match io::stdin().read_line(&mut input) {
+        Ok(_) => {}
+        Err(_) => {
+            eprintln!("Invalid input; continuing!");
+        }
+    }
+    input = input.trim().to_string();
+    Some(input)
 }
 
 pub fn config_menu(name: &str) -> ProjectConfig {

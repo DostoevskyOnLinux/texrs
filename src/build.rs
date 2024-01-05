@@ -21,20 +21,18 @@ use crate::config::*;
 use colored::*;
 use std::error::Error;
 use std::fs;
-use std::fs::File;
-use std::io::Read;
 use std::path::PathBuf;
 use std::process::Command;
 use toml;
 
 pub fn read_config(path: PathBuf) -> Result<ProjectConfig, Box<dyn Error>> {
-    let mut file_string = fs::read_to_string(path)?;
+    let file_string = fs::read_to_string(path)?;
     let config: ProjectConfig = toml::from_str(&file_string)?;
     Ok(config)
 }
 
 pub fn build_project(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
-    if let Err(_) = fs::metadata(config.get_name() + "/target") {
+    if fs::metadata(config.get_name() + "/target").is_err() {
         fs::create_dir(config.get_name() + "/target")?;
         println!("[  {}  ] Creating target dir.", "OK".green());
     } else {

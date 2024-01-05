@@ -141,24 +141,24 @@ pub fn create_directories(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
 fn git_init(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
     let mut git_init = Command::new("git");
     let output = git_init
-        .args(&["init"])
+        .args(["init"])
         .current_dir(config.get_name())
         .output()?;
     if output.status.success() {
         println!("[  {}  ] Git repository initialized.", "OK".green());
-        return Ok(());
+        Ok(())
     } else {
-        return Err(Box::new(io::Error::new(
+        Err(Box::new(io::Error::new(
             io::ErrorKind::Other,
             "git failed.",
-        )));
+        )))
     }
 }
 
 fn git_add(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
     let mut git_add = Command::new("git");
     if git_add
-        .args(&["add", "."])
+        .args(["add", "."])
         .current_dir(config.get_name())
         .output()?
         .status
@@ -167,17 +167,17 @@ fn git_add(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
         println!("[  {}  ] Git added files.", "OK".green());
         Ok(())
     } else {
-        return Err(Box::new(io::Error::new(
+        Err(Box::new(io::Error::new(
             io::ErrorKind::Other,
             "git failed.",
-        )));
+        )))
     }
 }
 
 fn git_commit(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
     let mut git_commit = Command::new("git");
     if git_commit
-        .args(&["commit", "-m", "\"Initialize repository.\""])
+        .args(["commit", "-m", "\"Initialize repository.\""])
         .current_dir(config.get_name())
         .output()?
         .status
@@ -186,9 +186,9 @@ fn git_commit(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
         println!("[  {}  ] Git repository committed.", "OK".green());
         Ok(())
     } else {
-        return Err(Box::new(io::Error::new(
+        Err(Box::new(io::Error::new(
             io::ErrorKind::Other,
             "git failed.",
-        )));
+        )))
     }
 }
