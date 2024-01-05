@@ -23,20 +23,13 @@ use std::error::Error;
 use std::fs;
 use std::fs::File;
 use std::io::Read;
+use std::path::PathBuf;
 use std::process::Command;
 use toml;
 
-pub fn read_config(path: &str) -> Result<ProjectConfig, Box<dyn Error>> {
-    let path = path.trim();
-    let mut toml_str = String::new();
-    if path == "." {
-        let mut file = File::open("config.toml")?;
-        file.read_to_string(&mut toml_str)?;
-    } else {
-        let mut file = File::open(path.to_owned() + "/config.toml")?;
-        file.read_to_string(&mut toml_str)?;
-    }
-    let config: ProjectConfig = toml::from_str(&toml_str)?;
+pub fn read_config(path: PathBuf) -> Result<ProjectConfig, Box<dyn Error>> {
+    let mut file_string = fs::read_to_string(path)?;
+    let config: ProjectConfig = toml::from_str(&file_string)?;
     Ok(config)
 }
 

@@ -16,8 +16,16 @@
 // | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
 
+use std::path::PathBuf;
+
 use clap::{Parser, Subcommand, ValueEnum};
 use serde_derive::{Deserialize, Serialize};
+
+/* MODULES */
+pub mod build;
+pub mod cli;
+pub mod config;
+pub mod new;
 
 #[derive(Debug, Parser)] // requires `derive` feature
 #[command(name = "texrs")]
@@ -50,7 +58,7 @@ enum Commands {
     #[command(arg_required_else_help = true)]
     Build {
         /// Path to the configuration file.
-        path: String,
+        path: PathBuf,
     },
     /// Interactive project setup. Recommended.
     #[command(arg_required_else_help = true)]
@@ -157,7 +165,7 @@ fn main() {
             }
         },
         Commands::Build { path } => {
-            let config = build::read_config(&path).expect("Config file must be present.");
+            let config = build::read_config(path).expect("Config file must be present.");
             match build::build_project(config) {
                 Ok(()) => println!("Success!"),
                 Err(err) => eprintln!("{}", err),
@@ -172,8 +180,3 @@ fn main() {
         }
     }
 }
-
-pub mod build;
-pub mod cli;
-pub mod config;
-pub mod new;

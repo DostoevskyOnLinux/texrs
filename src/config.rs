@@ -24,14 +24,15 @@ use std::fs::File;
 use std::io::Write;
 use toml;
 
-/// The ProjectConfig struct stores five pieces of
+/// The ProjectConfig struct stores six pieces of
 /// information about the project: what name, driver,
-/// whether citations or graphics are used, & what
-/// type of document it is.
+/// & whether citations or graphics are used, whatever arguments are passed,
+/// & what type of document it is.
 ///
 /// ## Structure
 /// name: String,
 /// driver: String,
+/// arguments: Option<Vec<String>>
 /// citations: bool,
 /// graphics: bool,
 /// doctype: DocumentType
@@ -39,6 +40,7 @@ use toml;
 pub struct ProjectConfig {
     name: String,
     driver: String,
+    arguments: Option<Vec<String>>,
     citations: bool,
     graphics: bool,
     doctype: DocumentType,
@@ -51,6 +53,10 @@ impl ProjectConfig {
 
     pub fn get_driver(&self) -> String {
         self.driver.clone()
+    }
+
+    pub fn get_arguments(&self) -> Option<Vec<String>> {
+        self.arguments.to_owned()
     }
 
     pub fn get_citations(&self) -> bool {
@@ -73,6 +79,10 @@ impl ProjectConfig {
         self.driver = driver.to_owned();
     }
 
+    pub fn set_arguments(&mut self, arguments: Option<Vec<String>>) {
+        self.arguments = arguments;
+    }
+
     pub fn set_citations(&mut self, citations: bool) {
         self.citations = citations;
     }
@@ -89,6 +99,7 @@ impl ProjectConfig {
         ProjectConfig {
             name: "document1".to_owned(),
             driver: "pdflatex".to_owned(),
+            arguments: None,
             citations: true,
             graphics: true,
             doctype: DocumentType::Letter,
