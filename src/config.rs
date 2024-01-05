@@ -99,7 +99,7 @@ impl ProjectConfig {
         ProjectConfig {
             name: "document1".to_owned(),
             driver: "pdflatex".to_owned(),
-            arguments: None,
+            arguments: Some(vec![String::from("--shell-escape")]),
             citations: true,
             graphics: true,
             doctype: DocumentType::Letter,
