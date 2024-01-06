@@ -11,7 +11,7 @@
 // |                                                                                                                                   |
 // | You should have received a copy of the GNU General Public License along with texrs. If not, see <https://www.gnu.org/licenses/>.  |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
-// | Copyright (c) 2023 Ethan Barry <ethanbarry@howdytx.net>                                                                           |
+// | Copyright (c) 2024 Ethan Barry <ethanbarry@howdytx.net>                                                                           |
 // | Feel free to contact the author if you do come across this source code for some reason...                                         |
 // | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
@@ -21,17 +21,26 @@ use crate::config::*;
 use colored::*;
 use std::error::Error;
 use std::fs;
+use std::io::Read;
 use std::path::PathBuf;
 use std::process::Command;
 use toml;
 
 pub fn read_config(path: PathBuf) -> Result<ProjectConfig, Box<dyn Error>> {
-    let file_string = fs::read_to_string(path)?;
+    dbg!(&path);
+    // let file_string = fs::read_to_string(path).expect("Error at read_to_string().");
+    let mut file = fs::File::open(path.canonicalize().expect("Cannot canonicalize path."))
+        .expect("Should be valid, yes?");
+    let mut file_string = String::new();
+    file.read_to_string(&mut file_string)
+        .expect("Failed to read.");
+
     let config: ProjectConfig = toml::from_str(&file_string)?;
     Ok(config)
 }
 
 pub fn build_project(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
+    // If the /target dir doesn't exist, create it, else skip the step.
     if fs::metadata(config.get_name() + "/target").is_err() {
         fs::create_dir(config.get_name() + "/target")?;
         println!("[  {}  ] Creating target dir.", "OK".green());

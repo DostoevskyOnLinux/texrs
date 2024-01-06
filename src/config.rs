@@ -11,7 +11,7 @@
 // |                                                                                                                                   |
 // | You should have received a copy of the GNU General Public License along with texrs. If not, see <https://www.gnu.org/licenses/>.  |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
-// | Copyright (c) 2023 Ethan Barry <ethanbarry@howdytx.net>                                                                           |
+// | Copyright (c) 2024 Ethan Barry <ethanbarry@howdytx.net>                                                                           |
 // | Feel free to contact the author if you do come across this source code for some reason...                                         |
 // | <https://github.com/ethanbarry> is the author's profile.                                                                          |
 // + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
@@ -99,7 +99,7 @@ impl ProjectConfig {
         ProjectConfig {
             name: "document1".to_owned(),
             driver: "pdflatex".to_owned(),
-            arguments: Some(vec![String::from("--shell-escape")]),
+            arguments: None,
             citations: true,
             graphics: true,
             doctype: DocumentType::Letter,
