@@ -77,6 +77,7 @@ pub enum DocumentType {
     MathArticle,
     Notes,
     Letter,
+    Recipe,
 }
 
 fn main() {
@@ -158,6 +159,17 @@ fn main() {
                 config.set_citations(false);
                 config.set_graphics(true);
                 config.set_doctype(DocumentType::Letter);
+                match new::create_directories(config) {
+                    Ok(_) => {}
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
+            DocumentType::Recipe => {
+                config.set_name(&name);
+                config.set_driver("xelatex");
+                config.set_citations(false);
+                config.set_graphics(true);
+                config.set_doctype(DocumentType::Recipe);
                 match new::create_directories(config) {
                     Ok(_) => {}
                     Err(err) => eprintln!("{}", err),

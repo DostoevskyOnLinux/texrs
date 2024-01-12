@@ -26,8 +26,10 @@ use std::{fs, fs::File};
 
 const ARTICLE_TEMPLATE: &str = include_str!("../res/article.tex");
 const LETTER_TEMPLATE: &str = include_str!("../res/letter.tex");
+const RECIPE_TEMPLATE: &str = include_str!("../res/recipe.tex");
 const BIBTEX_TEMPLATE: &str = include_str!("../res/refs.bib");
 const NOTES_TEMPLATE: &str = include_str!("../res/notes.tex");
+const BOOK_TEMPLATE: &str = include_str!("../res/book.tex");
 
 /* -------------------------------------------------------------------- */
 /// This method creates a directory structure based on a ProjectConfig
@@ -70,7 +72,7 @@ pub fn create_directories(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
         DocumentType::Book => {
             let mut file =
                 File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
-            file.write_all(ARTICLE_TEMPLATE.as_bytes())?;
+            file.write_all(BOOK_TEMPLATE.as_bytes())?;
             println!("[  {}  ] Created tex dir.", "OK".green());
         }
         DocumentType::Thesis => {
@@ -101,6 +103,12 @@ pub fn create_directories(config: ProjectConfig) -> Result<(), Box<dyn Error>> {
             let mut file =
                 File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
             file.write_all(LETTER_TEMPLATE.as_bytes())?;
+            println!("[  {}  ] Created tex dir.", "OK".green());
+        }
+        DocumentType::Recipe => {
+            let mut file =
+                File::create(config.get_name() + "/tex/" + config.get_name().as_str() + ".tex")?;
+            file.write_all(RECIPE_TEMPLATE.as_bytes())?;
             println!("[  {}  ] Created tex dir.", "OK".green());
         }
     }

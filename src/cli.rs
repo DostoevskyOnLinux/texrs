@@ -20,6 +20,8 @@ use crate::{config::*, DocumentType};
 use colored::*;
 use std::{io, io::Write};
 
+/// Prompt for yes/no values and return an Option<bool>.
+// TODO Extract to its own crate and publish on crates.io.
 pub fn prompt_tf(prompt: &str, colored: &str, color: &str) -> Option<bool> {
     let mut input = String::new();
     input.clear();
@@ -102,6 +104,13 @@ fn prompt_selection(prompt: &str, colored: &str, color: &str) -> Option<String> 
     Some(input)
 }
 
+// TODO: Restructure menu after adding choices to the templates.
+// | <Select Driver>
+// | <Select Document Category>
+// | <Common> | <Mathematical> | <Formal> | <Personal> | <Technical>
+// TODO: Make graphics and citations dependent on the document type.
+// | <Select Citations>
+// | <Select Graphics>
 pub fn config_menu(name: &str) -> ProjectConfig {
     let mut config = ProjectConfig::new();
 

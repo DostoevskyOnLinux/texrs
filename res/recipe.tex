@@ -1,0 +1,102 @@
+\documentclass[letterpaper,twoside,10pt,landscape]{article}
+% Ordered Alphabetically
+\usepackage[english]{babel}
+\usepackage{ebgaramond}
+\usepackage{eso-pic}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[top=0.5in,
+            marginparwidth=48pt,
+            paperwidth=4in,
+            paperheight=6in]{geometry}
+\usepackage{layout}
+\usepackage{marginnote}
+\usepackage{multicol}
+\usepackage{pgfornament}
+\usepackage{calligra}
+\usepackage{textcomp}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+\pdfgentounicode=1
+\pagenumbering{gobble}
+\fancyhf{}
+\setlength{\headheight}{0pt}
+\setlength{\footskip}{0pt}
+\setlength{\textheight}{240pt}
+
+\setlength{\multicolsep}{10pt}
+\setlength{\marginparsep}{15pt}
+\setlength{\marginparpush}{15pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----% FORMATTING MACROS %----------------------%
+
+% Section format.
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\titlerule\vspace{-5pt}]
+
+% Recipe items.
+\newcommand{\RItem}[1]{
+  \item\small{{#1}}
+}
+
+\newcommand{\RItemListStart}{\begin{itemize}}
+\newcommand{\RItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\newcommand{\RecipeInstructionsStart}{
+\begin{enumerate}[label={\textit{\arabic{enumi}:}},
+                  leftmargin = 2em]}
+\newcommand{\RecipeInstructionsEnd}{\end{enumerate}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----% THE DOCUMENT %---------------------------%
+\begin{document}
+
+\begin{multicols}{2}
+% Title here:
+\noindent \pgfornament[width=0.25in]{12}
+
+\columnbreak
+
+{\calligra{\fontsize{16pt}{2}\selectfont Homemade Sandwich Bread}}
+\end{multicols}
+
+\small{\textbf{Servings:} 2 loaves}
+% More 'recipe metadata' can go here!
+
+\section{Ingredients}
+\begin{multicols}{2}
+ \RItemListStart
+  \renewcommand\labelitemi{---}
+  \RItem{6 cups all-purpose flour}
+  \RItem{2 tbsp. instant or active dry yeast}
+  \RItem{2 tbsp. granulated sugar}
+  \RItem{1 tbsp. kosher salt (or $1\frac{1}{2}$ tsp. table salt)}
+  \RItem{2 cups very warm water}
+  \RItem{$\frac{1}{4}$ cup extra-virgin olive oil, divided}
+  \item[\vspace{\fill}]
+ \RItemListEnd
+\end{multicols}
+\section{Instructions}
+ \RecipeInstructionsStart
+  \RItem{In a large mixing bowl, whisk together the flour, yeast, sugar, \& salt.
+         Then add in the water \& 2 tbsp. of the oil; mix with a wooden spoon until
+         a ``shaggy'' dough forms.\marginnote{\textit{No idea what shaggy is doing describing food...}}}
+  \RItem{Turn out onto a clean surface; knead until smooth, or for about 4 minutes.}
+  \RItem{Form a smooth dough ball and return to the mixing bowl. Cover with a clean towel
+  \& let rise in a warm place for about 15 minutes.}
+  \RItem{Divide the dough in half \& form into two loaf shapes, then place them
+  in standard-size loaf pans.}
+  \RItem{Drizzle a tbsp. of the remaining olive oil over each, then slash the tops
+  of the loaves about $\frac{1}{4}$ in. deep with a sharp knife.}
+  \RItem{Place the loaves in the middle rack of a \textbf{cold} oven with a pan
+  of hot tap water below it.}
+  \RItem{Close the oven; set to 400\textdegree, \& start a timer for 40 min.}
+  \RItem{After this, transfer the loaves from the pans to a cooling rack}
+  \item[\vspace{\fill}]
+ \RecipeInstructionsEnd
+
+\end{document}

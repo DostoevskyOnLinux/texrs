@@ -1,0 +1,152 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% This template was drafted by Ethan Barry, but
+%%% has been created with tidbits from many diff-
+%%% erent sources. You may have it under the terms
+%%% of the BSD 2-clause license. Go wild.
+%%% -----
+%%% It is also part of the program called
+%%% 'texrs'. The source code of the program
+%%% excepting this file is licensed under the
+%%% terms of the GPLv3.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%% PRELUDE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% | You may notice that the memoir class has been
+% | selected for this template. It is a modern
+% | LaTeX class that provides a clean interface &
+% | many useful macros. Its documentation can be
+% | found at: <https://www.ctan.org/pkg/memoir>
+%-----% ----- %----------------------------------%
+\documentclass[crownvopaper,
+               extrafontsizes,
+               11pt,
+               twoside,
+               openright,
+               final]{memoir}
+
+\usepackage{ucs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bbold}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage{xfrac}
+\usepackage[english]{babel}
+\usepackage{fontenc}
+\usepackage{graphicx}
+\usepackage{witharrows}
+\usepackage{ebgaramond}[RawFeature={+hlig,+hist}]
+\usepackage{microtype}
+
+\usepackage{lipsum}
+
+\WithArrowsOptions{displaystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----% PAGE LAYOUT %----------------------------%
+\setlrmarginsandblock{0.65in}{1in}{*} % Left-right margins.
+\setulmarginsandblock{0.85in}{1in}{*} % Upper-lower margins.
+\setheadfoot{0.2in}{0.4in}
+\checkandfixthelayout[lines] % Multiple choices available.
+
+%-----% SECTION DIVISIONS %----------------------%
+% Simple custom header structure.
+\makepagestyle{myheadings}
+\makeevenhead{myheadings}{\thepage}{\scshape{awesome \& cool books in \LaTeX}}{}
+\makeoddhead{myheadings}{}{\scshape{chapter~\thechapter}}{\thepage}
+% Customize the chapter and section fonts in ToC.
+\renewcommand{\cftchapterfont}{\scshape}
+\renewcommand{\cftsectionfont}{\itshape}
+% Set skips between divisions, and change styles.
+\setsecheadstyle{\large\scshape\centering\MakeTextLowercase}
+\setbeforesecskip{3ex}
+\setbeforesubsecskip{3ex}
+\setsubsecheadstyle{\centering\swshape}
+%%%%%%% END PRELUDE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----% THE DOCUMENT %---------------------------%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----% THE COPYRIGHT PAGE %---------------------%
+\thispagestyle{empty}
+\begin{center}
+ {\scshape\itshape copyright, 2023, by fizz b. fuzz}\\
+ \vspace{3ex}
+ \parbox{0.8\textwidth}{\small
+  All rights reserved. This book, or parts thereof, must
+  not be reproduced in any form without permission.
+ }\\
+ \vspace{5ex}
+ {\small\itshape first impression}\\
+ \vspace{5ex}
+ \parbox{0.8\textwidth}{\footnotesize \textsw{A note on the typography:}
+  This document was set in EB Garamond type, based on the
+  designs of Claude Garamond, the French typographer who profoundly
+  impacted the world of typeface design. The document itself
+  has been typeset by \LaTeX ,~an excellent set of tools
+  based on Donald E. Knuth's \TeX~ typesetting system.
+ }\\
+ \vfill
+ {\small\scshape printed in the united states of america}
+\end{center}
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----% THE TITLE PAGE %-------------------------%
+\begin{titlingpage}
+ \begin{center}
+  \vspace{10ex}
+  {\scshape\Large Awesome}\\
+  \vspace{2ex}
+  \textit{\Large \&}\\
+  \vspace{2ex}
+  {\scshape\Large Cool Books}\\
+  \vspace{2ex}
+  \textit{\Large in}\\
+  \vspace{2ex}
+  {\scshape\Large \LaTeX}\\
+  \vspace{10ex}
+  {\scshape by fizz b. fuzz}\\
+  \vfill
+ \end{center}
+ % Include a publisher's logo or mark in the following image box.
+ \begin{figure}[h!]
+   \centering
+   \includegraphics[width=0.4\textwidth]{../graphics/Printers_Mark.png}
+  \end{figure}
+ \end{titlingpage}
+
+% Uncomment the following for a two-column setup.
+% \setcolsepandrule{15pt}{0.4pt}
+\pagestyle{myheadings}
+\chapterstyle{thatcher} % Many excellent options are available.
+
+\tableofcontents
+\newpage
+
+ \chapter*{Introduction}
+ \lipsum[1]
+
+ \section*{Section Header}
+ \lipsum[2-3]
+
+ \section*{Outline of Topics}
+ \lipsum[4-6]
+
+ \chapter{Here is a chapter title.}
+ \section{Here is the First Section}
+ \lipsum[1]
+ \subsection{Here is a subsection}
+ \lipsum[2-4]
+ \subsection{And another subsection}
+ \lipsum[5-6]
+ \chapter{On to the next chapter.}
+ \lipsum[7]
+ \section{with a little section}
+ \lipsum[8-9]
+ \subsection{...\& another subsection}
+ \lipsum[10]
+
+\end{document}
