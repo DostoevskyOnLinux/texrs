@@ -1,6 +1,6 @@
 [package]
 name = "texrs"
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -8,7 +8,7 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.4.7", features = ["derive", "wrap_help"] }
 colored = "2.0.4"
-cumaea = "0.1.0"
+cumaea = "^0.1.1"
 serde = "1.0.190"
 serde_derive = "1.0.190"
 toml = "0.8.6"

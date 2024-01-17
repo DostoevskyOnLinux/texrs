@@ -44,7 +44,7 @@ pub struct ProjectConfig {
     citations: bool,
     graphics: bool,
     doctype: DocumentType,
-} // TODO: I don't think these need to be `pub` now...
+}
 
 impl ProjectConfig {
     pub fn get_name(&self) -> String {

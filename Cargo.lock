@@ -115,9 +115,9 @@ dependencies = [
 
 [[package]]
 name = "cumaea"
-version = "0.1.0"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b7a52f5523a7b44118e4e5e0c04fca9d87634cf183ca1847069d3a82427ca069"
+checksum = "f0f0b1da0e29119cd381365271943473c0487c2537ac71117a75f663cb68823a"
 dependencies = [
  "colored",
 ]

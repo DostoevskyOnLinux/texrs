@@ -61,10 +61,11 @@ enum Commands {
         path: PathBuf,
     },
     /// Interactive project setup. Recommended.
-    #[command(arg_required_else_help = true)]
+    #[command()]
     Interactive {
         /// Project name.
-        name: String,
+        #[arg(value_name = "NAME")]
+        name: Option<String>,
     },
 }
 
@@ -79,6 +80,23 @@ pub enum DocumentType {
     Letter,
     Recipe,
 }
+
+#[derive(Debug)]
+pub enum TexrsError {
+    InvalidChoice(String),
+    IoError(std::io::Error),
+}
+
+impl std::fmt::Display for TexrsError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            TexrsError::IoError(e) => e.fmt(f),
+            TexrsError::InvalidChoice(msg) => write!(f, "Invalid input: `{}` not permitted.", msg),
+        }
+    }
+}
+
+impl std::error::Error for TexrsError {}
 
 fn main() {
     let args = Cli::parse();
@@ -184,7 +202,17 @@ fn main() {
             }
         }
         Commands::Interactive { name } => {
-            let config = cli::config_menu(&name);
+            if let Some(project_name) = name {
+                match cli::config_menu(&project_name) {
+                    Ok(new_config) => config = new_config,
+                    Err(err) => eprintln!("{}", err),
+                }
+            } else {
+                match cli::config_menu_nameless() {
+                    Ok(new_config) => config = new_config,
+                    Err(err) => eprintln!("{}", err),
+                }
+            }
             match new::create_directories(config) {
                 Ok(_) => {}
                 Err(err) => eprintln!("{}", err),
